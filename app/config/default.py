@@ -8,7 +8,7 @@ class Config:
     #Deshabilita las sugerencias de otros endpoints relacionados con alguno que no exista (Flask-Restful).
     ERROR_404_HELP = False
 
-    JWT_ACCESS_TOKEN_EXPIRES = 3600
+    JWT_ACCESS_TOKEN_EXPIRES = 20
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access']
 

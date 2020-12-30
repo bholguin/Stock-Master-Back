@@ -3,15 +3,15 @@ from app.common.db import db
 from flask_cors import CORS
 from app.common.ext import mh, migrate, jwt
 from flask_restful import Api
-#app
+#config app
+from app.config.default import config
+#app Extension
+from app.common.command import command_app
 from app.common.jwt_bihavier import jwt_callbacks
 from app.common.error_handlers import register_error_handlers
+#blueprint
 from app.usuarios.routes import modulo_usuarios
 from app.usuarios.auth.routes import modulo_login
-from app.validator.routes import modulo_token
-
-from app.config.default import config
-
 
 def create_app():
     app = Flask(__name__)
@@ -32,10 +32,10 @@ def create_app():
     
     #Registra los blueprints
     app.register_blueprint(modulo_login)
-    #app.register_blueprint(modulo_token)
     app.register_blueprint(modulo_usuarios)
 
-   
+    #Registra los comandos configurados en esta aplicación
+    command_app(app)
     #Registra manejadores de errores personalizados
     register_error_handlers(app)
     #Callbacks de control de comportamiento de los jwt

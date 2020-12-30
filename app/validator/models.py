@@ -1,3 +1,4 @@
+from flask import jsonify
 from app.common.db import db, BaseModel
 from app.common.error_handling import ForbiddenError
 from datetime import datetime
@@ -28,14 +29,30 @@ class TokenBlacklist(db.Model, BaseModel):
         access_token = create_access_token(identity=id)
         decode_token = self.decode_auth_token_extended(access_token)
         bl = TokenBlacklist(
-            jti= decode_token['jti'],
-            token_type= decode_token['type'],
-            user_identity= decode_token['identity'],
-            revoked= False,
-            expires= datetime.fromtimestamp(decode_token['exp'])
+            jti=decode_token['jti'],
+            token_type=decode_token['type'],
+            user_identity=decode_token['identity'],
+            revoked=False,
+            expires=datetime.fromtimestamp(decode_token['exp'])
         )
         bl.save()
         return access_token
+
+    @classmethod
+    def expired_token_app(self, jti):
+        token = self.filter_first(jti=jti)
+        token.revoked = True
+        token.update()
+        if token.revoked:
+            return jsonify({
+                'status': 401,
+                'sub_status': 42,
+                'msg': 'The token has expired'
+            }), 401
+        return jsonify({
+            'status': 200,
+            'msg': 'Active'
+        }), 200
 
     @classmethod
     def decode_auth_token_extended(self, token):

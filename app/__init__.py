@@ -9,7 +9,7 @@ from app.config.default import config
 from app.common.command import command_app
 from app.common.jwt_bihavier import jwt_callbacks
 from app.common.error_handlers import register_error_handlers
-#blueprint
+#blueprint modules
 from app.usuarios.routes import modulo_usuarios
 from app.usuarios.auth.routes import modulo_login
 

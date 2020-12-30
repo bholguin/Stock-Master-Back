@@ -7,8 +7,9 @@ class Config:
     PROPAGATE_EXCEPTIONS = True
     #Deshabilita las sugerencias de otros endpoints relacionados con alguno que no exista (Flask-Restful).
     ERROR_404_HELP = False
-
-    JWT_ACCESS_TOKEN_EXPIRES = 20
+    FLASKY_ADMIN = 'Brayhan Holguin'
+    #Configuracion JWT-Extended
+    JWT_ACCESS_TOKEN_EXPIRES = 3600
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access']
 
@@ -17,7 +18,7 @@ class Config:
         pass
 
 class DevelopmentConfig(Config):
-
+    #habilita debug
     DEBUG = True
     # Lo utilizan Flask y ciertas extensiones que manejan aspectos de seguridad.
     SECRET_KEY = '123447a47f563e90fe2db0f56b1b17be62378e31b7cfd3adc776c59ca4c75e2fc512c15f69bb38307d11d5d17a41a7936789'
@@ -27,7 +28,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     #Se deshabilitan los mensajes de log de SQLAlchemy.
     SHOW_SQLALCHEMY_LOG_MESSAGES = True
-    FLASKY_ADMIN = 'Brayhan Holguin'
+    
 
 
 class ProductionConfig(Config):

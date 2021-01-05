@@ -1,0 +1,15 @@
+#Config app first time deployment
+
+python install virtualenv
+python -m venv venv
+venv\Scripts\activate
+python -m pip install --upgrade pip
+pip install -r .\requirements.txt
+flask db init
+flask db migrate
+flask db upgrade
+flask run
+
+#create first user for app
+venv\Scripts\activate
+flask create-user-admin

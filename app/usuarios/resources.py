@@ -27,7 +27,7 @@ class UsuarioResource(Resource):
     @jwt_required
     def delete(self, id):
         Usuario.delete_user(id)
-        return None, 204
+        return id, 200
 
     @jwt_required
     def put(self, id):

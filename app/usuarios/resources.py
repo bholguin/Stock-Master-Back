@@ -30,8 +30,8 @@ class UsuarioResource(Resource):
         return id, 200
 
     @jwt_required
-    def put(self, id):
-        user = Usuario.update_user(id, request.get_json())
+    def put(self):
+        user = Usuario.update_user(request.get_json())
         return usuario_schema.dump(user), 201
 
 

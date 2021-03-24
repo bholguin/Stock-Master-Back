@@ -43,8 +43,8 @@ class Usuario(db.Model, BaseModel):
         return usuario
 
     @classmethod
-    def update_user(self, id: int, modelo: dict):
-        user = self.valida_usuario_existe(id)
+    def update_user(self, modelo: dict):
+        user = self.valida_usuario_existe(int(modelo['id']))
         user.nombre = modelo['nombre']
         user.apellido = modelo['apellido']
         user.password = modelo['password']

@@ -12,6 +12,8 @@ from app.common.error_handlers import register_error_handlers
 #blueprint modules
 from app.usuarios.routes import modulo_usuarios
 from app.usuarios.auth.routes import modulo_login
+from app.vehiculos.routes import modulo_vehiculos
+from app.empresas.routes import modulo_empresa
 
 def create_app():
     app = Flask(__name__)
@@ -33,6 +35,8 @@ def create_app():
     #Registra los blueprints
     app.register_blueprint(modulo_login)
     app.register_blueprint(modulo_usuarios)
+    app.register_blueprint(modulo_vehiculos)
+    app.register_blueprint(modulo_empresa)
 
     #Registra los comandos configurados en esta aplicación
     command_app(app)

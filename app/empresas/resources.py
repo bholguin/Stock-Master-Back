@@ -21,3 +21,13 @@ class EmpresaResource(Resource):
         print(request.get_json())
         empresa = Empresa.create_empresa(request.get_json())
         return empresa_schema.dump(empresa), 201
+
+    @jwt_required
+    def put(self):
+        empresa = Empresa.update_empresa(request.get_json())
+        return empresa_schema.dump(empresa), 201
+
+    @jwt_required
+    def delete(self, id):
+        Empresa.delete_empresa(id)
+        return id, 200

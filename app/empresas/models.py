@@ -1,5 +1,5 @@
 from app.common.db import db, BaseModel
-
+from app.common.error_handling import ObjectNotFound
 
 class Empresa(db.Model, BaseModel):
     __tablename__ = "empresas"
@@ -20,4 +20,27 @@ class Empresa(db.Model, BaseModel):
         empresa = Empresa(nombre=modelo["nombre"],
                           nit=modelo["nit"], direccion=modelo['direccion'], telefono=modelo['telefono'])
         empresa.save()
+        return empresa
+
+
+    @classmethod
+    def update_empresa(self, modelo: dict):
+        empresa = self.valida_empresa_existe(int(modelo['id']))
+        empresa.nombre = modelo['nombre']
+        empresa.nit = modelo['nit']
+        empresa.direccion = modelo['direccion']
+        empresa.telefono = modelo['telefono']
+        empresa.update()
+        return empresa
+    
+    @classmethod
+    def delete_empresa(self, id: int):
+        empresa = self.valida_empresa_existe(id)
+        self.delete(empresa)
+    
+    @classmethod
+    def valida_empresa_existe(self, id: int):
+        empresa = self.get_by_id(id)
+        if empresa is None:
+            raise ObjectNotFound()
         return empresa

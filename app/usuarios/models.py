@@ -3,6 +3,7 @@ from app.common.error_handling import ObjectNotFound, EmptyMessage
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 
+
 class Usuario(db.Model, BaseModel):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
@@ -11,7 +12,6 @@ class Usuario(db.Model, BaseModel):
     username = db.Column(db.String(50))
     password = db.Column(db.String(255))
     id_publico = db.Column(db.String(32), index=True, unique=True)
-
 
     def __init__(self, nombre: str, apellido: str, username: str, password: str):
         self.nombre = nombre
@@ -25,7 +25,6 @@ class Usuario(db.Model, BaseModel):
 
     def __str__(self):
         return f'{self.nombre}'
-    
 
     def generar_password(self, password: str):
         self.password = generate_password_hash(password)
@@ -36,9 +35,9 @@ class Usuario(db.Model, BaseModel):
     @classmethod
     def create_user(self, modelo: dict):
         usuario = Usuario(nombre=modelo['nombre'],
-                    apellido=modelo['apellido'],
-                    password=modelo['password'],
-                    username=modelo['username'])
+                          apellido=modelo['apellido'],
+                          password=modelo['password'],
+                          username=modelo['username'])
         usuario.save()
         return usuario
 
@@ -47,7 +46,6 @@ class Usuario(db.Model, BaseModel):
         user = self.valida_usuario_existe(int(modelo['id']))
         user.nombre = modelo['nombre']
         user.apellido = modelo['apellido']
-        user.password = modelo['password']
         user.username = modelo['username']
         user.update()
         return user
@@ -76,4 +74,3 @@ class Usuario(db.Model, BaseModel):
         if usuario is None:
             raise ObjectNotFound()
         return usuario
-

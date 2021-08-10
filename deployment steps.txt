@@ -13,3 +13,6 @@ flask run
 #create first user for app
 venv\Scripts\activate
 flask create-user-admin
+
+
+ git remote set-url origin https://username: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@github.com/bholguin/plantilla_frontend.git

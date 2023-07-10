@@ -12,7 +12,7 @@ class LogoutResource(Resource):
         return Login.logout_method(get_raw_jwt()['jti'])
         
 class LoginResource(Resource):
-
+    
     def post(self):
         login = Login.login_method(request.get_json())
         return login_schema.dump(login), 200

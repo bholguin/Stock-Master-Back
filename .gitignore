@@ -1,5 +1,6 @@
 venv
 migrations
+config
 **/__pycache__
 .idea
 .vscode

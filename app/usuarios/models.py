@@ -13,11 +13,12 @@ class Usuario(db.Model, BaseModel):
     password = db.Column(db.String(255))
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
 
-    def __init__(self, nombre: str, apellido: str, username: str, password: str):
+    def __init__(self, nombre: str, apellido: str, username: str, password: str, empresa_id: int):
         self.nombre = nombre
         self.apellido = apellido
         self.generar_password(password)
         self.username = username
+        self.empresa_id = empresa_id
 
     def __repr__(self):
         return f'Usuario({self.nombre})'

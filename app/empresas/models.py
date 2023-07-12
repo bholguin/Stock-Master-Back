@@ -11,7 +11,7 @@ class Empresa(db.Model, BaseModel):
     telefono = db.Column(db.String(15))
     usuarios = db.relationship('Usuario', backref='usuario', lazy=True)
 
-    def __init__(self, nombre: str, nit: int, direccion: str, telefono: str, folder_id: str):
+    def __init__(self, nombre: str, nit: int, direccion: str, telefono: str):
         self.nombre = nombre
         self.nit = nit
         self.direccion = direccion

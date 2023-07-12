@@ -14,6 +14,7 @@ from app.usuarios.routes import modulo_usuarios
 from app.usuarios.auth.routes import modulo_login
 from app.vehiculos.routes import modulo_vehiculos
 from app.empresas.routes import modulo_empresa
+from app.unidades_medidas.routes import modulo_unidades_medidas
 
 def create_app():
     app = Flask(__name__)
@@ -38,6 +39,7 @@ def create_app():
     app.register_blueprint(modulo_usuarios)
     app.register_blueprint(modulo_vehiculos)
     app.register_blueprint(modulo_empresa)
+    app.register_blueprint(modulo_unidades_medidas)
 
     #Registra los comandos configurados en esta aplicación
     command_app(app)

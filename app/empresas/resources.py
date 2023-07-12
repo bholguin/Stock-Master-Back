@@ -1,6 +1,5 @@
 from flask_restful import request, Resource
 from app.empresas.models import Empresa
-from app.usuarios.models import Usuario
 from app.empresas.schemas import EmpresaSchema
 from flask_jwt_extended import jwt_required
 

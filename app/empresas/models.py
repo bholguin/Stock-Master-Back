@@ -5,26 +5,24 @@ from app.common.error_handling import ObjectNotFound
 class Empresa(db.Model, BaseModel):
     __tablename__ = "empresas"
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(80))
+    nombre = db.Column(db.String(80), unique=True)
     nit = db.Column(db.Integer)
     direccion = db.Column(db.String(50))
     telefono = db.Column(db.String(15))
-    folder_id = db.Column(db.String(30))
+    usuarios = db.relationship('Usuario', backref='usuario', lazy=True)
 
     def __init__(self, nombre: str, nit: int, direccion: str, telefono: str, folder_id: str):
         self.nombre = nombre
         self.nit = nit
         self.direccion = direccion
         self.telefono = telefono
-        self.folder_id = folder_id
 
     @classmethod
     def create_empresa(self, modelo: dict):
         empresa = Empresa(nombre=modelo["nombre"],
                           nit=modelo["nit"],
                           direccion=modelo['direccion'],
-                          telefono=modelo['telefono'],
-                          folder_id=modelo['folder_id'])
+                          telefono=modelo['telefono'])
         empresa.save()
         return empresa
 
@@ -42,6 +40,13 @@ class Empresa(db.Model, BaseModel):
     def delete_empresa(self, id: int):
         empresa = self.valida_empresa_existe(id)
         self.delete(empresa)
+
+    @classmethod
+    def get_empresas_por_username(self, username: str):
+        if username is None:
+            raise ObjectNotFound()
+        return self.query.filter(self.usuarios.any(username=username)).all()
+
 
     @classmethod
     def valida_empresa_existe(self, id: int):

@@ -10,7 +10,7 @@ python -m pip install --upgrade pip
 pip install -r .\requirements.txt
 ```
 
-## Configure the ORM database
+## Setup database (ORM)
 
 ```bash
 venv\Scripts\activate
@@ -30,9 +30,12 @@ flask create-user-admin
 ## Update requirements
 
 ```bash
-pip3 freeze > requirements.txt 
+pip freeze > requirements.txt 
 ```
 
 ## Documentation
 
+* [Flask Documentation](https://flask.palletsprojects.com/en/2.3.x/).
+* [Flask RESTful](https://flask-restful.readthedocs.io/en/latest/).
+* [Flask SqlAlchemy ORM](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/).
 * [Fix mysqlclient issue](https://github.com/PyMySQL/mysqlclient).

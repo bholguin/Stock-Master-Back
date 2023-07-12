@@ -20,7 +20,8 @@ def create_app():
     app.config.from_object(config['development'])
     config['development'].init_app(app)
     #inicializa cors
-    CORS(app)
+    #CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     #Inicializa las extensiones
     db.init_app(app)
     mh.init_app(app)

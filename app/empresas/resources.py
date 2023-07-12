@@ -1,9 +1,18 @@
 from flask_restful import request, Resource
 from app.empresas.models import Empresa
+from app.usuarios.models import Usuario
 from app.empresas.schemas import EmpresaSchema
 from flask_jwt_extended import jwt_required
 
 empresa_schema = EmpresaSchema()
+
+
+class EmpresasByUsernameResource(Resource):
+
+    def get(self):
+        username = request.args['username']
+        empresas = Empresa.get_empresas_por_username(username)
+        return empresa_schema.dump(empresas, many=True), 200
 
 
 class EmpresasResource(Resource):

@@ -11,14 +11,13 @@ class Usuario(db.Model, BaseModel):
     apellido = db.Column(db.String(50))
     username = db.Column(db.String(50))
     password = db.Column(db.String(255))
-    id_publico = db.Column(db.String(32), index=True, unique=True)
+    empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
 
     def __init__(self, nombre: str, apellido: str, username: str, password: str):
         self.nombre = nombre
         self.apellido = apellido
         self.generar_password(password)
         self.username = username
-        self.gererar_id_publico()
 
     def __repr__(self):
         return f'Usuario({self.nombre})'
@@ -29,8 +28,6 @@ class Usuario(db.Model, BaseModel):
     def generar_password(self, password: str):
         self.password = generate_password_hash(password)
 
-    def gererar_id_publico(self):
-        self.id_publico = str(uuid.uuid4().hex)
 
     @classmethod
     def create_user(self, modelo: dict):

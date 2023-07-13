@@ -22,9 +22,10 @@ class Login():
         try:
             username = data['username']
             password = data['password']
+            empresa_id = data['empresa_id']
         except:
             raise LoginNotFound()
-        user = Usuario.filter_first(username=username)
+        user = Usuario.filter_first(username=username, empresa_id=empresa_id)
         if user and user.check_password(user.password, password):
             auth_token = TokenBlacklist.encode_auth_token_extended(user)
             return auth_token

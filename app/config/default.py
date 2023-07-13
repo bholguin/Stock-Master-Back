@@ -12,9 +12,6 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = 3600
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access']
-    JWT_TOKEN_LOCATION = ['cookies']
-    JWT_ACCESS_COOKIE_PATH = "/api"
-    JWT_COOKIE_CSRF_PROTECT = True
 
     @staticmethod
     def init_app(app):

@@ -25,8 +25,8 @@ class TokenBlacklist(db.Model, BaseModel):
 
     # como claims se puede pasar el listado de permisos por el token
     @classmethod
-    def encode_auth_token_extended(self, id):
-        access_token = create_access_token(identity=id)
+    def encode_auth_token_extended(self, user):
+        access_token = create_access_token(identity=user)
         decode_token = self.decode_auth_token_extended(access_token)
         bl = TokenBlacklist(
             jti=decode_token['jti'],

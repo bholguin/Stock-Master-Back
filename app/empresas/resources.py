@@ -1,13 +1,14 @@
 from flask_restful import request, Resource
 from app.empresas.models import Empresa
 from app.empresas.schemas import EmpresaSchema
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, jwt_optional
 
 empresa_schema = EmpresaSchema()
 
 
 class EmpresasByUsernameResource(Resource):
 
+    @jwt_optional
     def get(self):
         username = request.args['username']
         empresas = Empresa.get_empresas_por_username(username)

@@ -26,11 +26,7 @@ class Login():
             raise LoginNotFound()
         user = Usuario.filter_first(username=username)
         if user and user.check_password(user.password, password):
-            auth_token = TokenBlacklist.encode_auth_token_extended(user.id)
-            if auth_token:
-                login = Login(
-                    token=auth_token,
-                )
-            return login
+            auth_token = TokenBlacklist.encode_auth_token_extended(user)
+            return auth_token
         else:
             raise LoginNotFound()

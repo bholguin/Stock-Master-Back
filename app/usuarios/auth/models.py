@@ -1,4 +1,4 @@
-from app.common.error_handling import LoginNotFound, EmptyMessage
+from app.common.error_handling import LoginNotFound, EmptyMessage, ForbiddenError
 from app.usuarios.models import Usuario
 from app.validator.models import TokenBlacklist
 
@@ -24,10 +24,10 @@ class Login():
             password = data['password']
             empresa_id = data['empresa_id']
         except:
-            raise LoginNotFound()
+            raise ForbiddenError()
         user = Usuario.filter_first(username=username, empresa_id=empresa_id)
         if user and user.check_password(user.password, password):
             auth_token = TokenBlacklist.encode_auth_token_extended(user)
             return auth_token
         else:
-            raise LoginNotFound()
+            raise ForbiddenError()

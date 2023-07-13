@@ -1,5 +1,5 @@
 from app.common.db import db, BaseModel
-from app.common.error_handling import ObjectNotFound
+from app.common.error_handling import ObjectNotFound, ForbiddenError
 
 
 class Empresa(db.Model, BaseModel):
@@ -44,8 +44,11 @@ class Empresa(db.Model, BaseModel):
     @classmethod
     def get_empresas_por_username(self, username: str):
         if username is None:
-            raise ObjectNotFound()
-        return self.query.filter(self.usuarios.any(username=username)).all()
+            raise ForbiddenError()
+        empresas = self.query.filter(self.usuarios.any(username=username)).all()
+        if len(empresas) == 0:
+            raise ForbiddenError()
+        return empresas
 
 
     @classmethod

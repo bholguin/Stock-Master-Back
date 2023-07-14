@@ -4,7 +4,7 @@ from flask_cors import CORS
 from app.common.ext import mh, migrate, jwt
 from flask_restful import Api
 #config app
-from app.config.default import config
+from config.default import config
 #app Extension
 from app.common.command import command_app
 from app.common.jwt_bihavier import jwt_callbacks
@@ -15,6 +15,7 @@ from app.usuarios.auth.routes import modulo_login
 from app.vehiculos.routes import modulo_vehiculos
 from app.empresas.routes import modulo_empresa
 from app.unidades_medidas.routes import modulo_unidades_medidas
+from app.validator.routes import modulo_validator
 
 def create_app():
     app = Flask(__name__)
@@ -40,6 +41,7 @@ def create_app():
     app.register_blueprint(modulo_vehiculos)
     app.register_blueprint(modulo_empresa)
     app.register_blueprint(modulo_unidades_medidas)
+    app.register_blueprint(modulo_validator)
 
     #Registra los comandos configurados en esta aplicación
     command_app(app)

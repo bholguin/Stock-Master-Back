@@ -1,7 +1,7 @@
 from flask_restful import request, Resource
 from .models import Usuario
 from .schemas import UsuarioSchema
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, current_user
 
 usuario_schema = UsuarioSchema()
 
@@ -15,9 +15,8 @@ class UsuariosResource(Resource):
 class UsuarioResource(Resource):
 
     @jwt_required
-    def get(self, id):
-        user = Usuario.valida_usuario_existe(id)
-        return usuario_schema.dump(user)
+    def get(self):
+        return usuario_schema.dump(current_user)
 
     @jwt_required
     def post(self):

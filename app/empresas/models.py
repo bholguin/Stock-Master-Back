@@ -6,7 +6,7 @@ class Empresa(db.Model, BaseModel):
     __tablename__ = "empresas"
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(80), unique=True)
-    nit = db.Column(db.Integer)
+    nit = db.Column(db.String(15))
     direccion = db.Column(db.String(50))
     telefono = db.Column(db.String(15))
     usuarios = db.relationship('Usuario', backref='usuario', lazy=True)
@@ -27,8 +27,8 @@ class Empresa(db.Model, BaseModel):
         return empresa
 
     @classmethod
-    def update_empresa(self, modelo: dict):
-        empresa = self.valida_empresa_existe(int(modelo['id']))
+    def update_empresa(self, modelo: dict, id: int):
+        empresa = self.valida_empresa_existe(id)
         empresa.nombre = modelo['nombre']
         empresa.nit = modelo['nit']
         empresa.direccion = modelo['direccion']

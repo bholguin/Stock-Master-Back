@@ -1,7 +1,7 @@
 from flask_restful import request, Resource
 from app.empresas.models import Empresa
 from app.empresas.schemas import EmpresaSchema
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_current_user
 
 empresa_schema = EmpresaSchema()
 
@@ -25,15 +25,21 @@ class EmpresasResource(Resource):
 class EmpresaResource(Resource):
 
     @jwt_required
+    def get(self):
+        user = get_current_user()
+        empresa = Empresa.valida_empresa_existe(user.empresa_id)
+        return empresa_schema.dump(empresa), 200
+
+    @jwt_required
     def post(self):
-        print(request.get_json())
         empresa = Empresa.create_empresa(request.get_json())
-        return empresa_schema.dump(empresa), 201
+        return empresa_schema.dump(empresa), 200
 
     @jwt_required
     def put(self):
-        empresa = Empresa.update_empresa(request.get_json())
-        return empresa_schema.dump(empresa), 201
+        user = get_current_user()
+        empresa = Empresa.update_empresa(request.get_json(), user.empresa_id)
+        return empresa_schema.dump(empresa), 200
 
     @jwt_required
     def delete(self, id):

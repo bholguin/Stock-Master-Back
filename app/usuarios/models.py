@@ -1,8 +1,6 @@
 from app.common.db import db, BaseModel
 from app.common.error_handling import ObjectNotFound, EmptyMessage
 from werkzeug.security import generate_password_hash, check_password_hash
-import uuid
-
 
 class Usuario(db.Model, BaseModel):
     __tablename__ = 'usuarios'

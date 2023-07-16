@@ -6,5 +6,5 @@ from flask_restful import Api
 modulo_vehiculos = Blueprint("modulo_vehiculos", __name__)
 api = Api(modulo_vehiculos)
 
-api.add_resource(VehiculoResource, "/api/vehiculo/", '/api/vehiculo/<int:id>', endpoint="vehiculo")
+api.add_resource(VehiculoResource, "/api/vehiculo/", endpoint="vehiculo")
 api.add_resource(VehiculosResource, "/api/vehiculo/", endpoint="vehiculos")

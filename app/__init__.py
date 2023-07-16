@@ -36,10 +36,10 @@ def create_app():
 
     
     #Registra los blueprints
+    app.register_blueprint(modulo_empresa)
     app.register_blueprint(modulo_login)
     app.register_blueprint(modulo_usuarios)
     app.register_blueprint(modulo_vehiculos)
-    app.register_blueprint(modulo_empresa)
     app.register_blueprint(modulo_unidades_medidas)
     app.register_blueprint(modulo_validator)
 

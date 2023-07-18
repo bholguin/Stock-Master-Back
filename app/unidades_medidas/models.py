@@ -17,7 +17,6 @@ class UnidadesMedidas(db.Model, BaseModel):
 
     @classmethod
     def create_unidad(self, modelo: dict, empresa_id: int):
-        print(modelo, empresa_id)
         unidad = UnidadesMedidas(nombre=modelo["nombre"],
                             prefijo=modelo["prefijo"],
                             descripcion=modelo["descripcion"],

@@ -18,6 +18,24 @@ class VehiculosResource(Resource):
 class VehiculoResource(Resource):
 
     @jwt_required
+    def get(self):
+        vehiculo_id = request.args['vehiculo_id']
+        vehiculo = Vehiculo.get_by_id(vehiculo_id)
+        return vehiculo_schema.dump(vehiculo), 200
+
+    @jwt_required
     def post(self):
-        vehi = Vehiculo.create_vehiculo(request.get_json())
+        user = get_current_user()
+        vehi = Vehiculo.create_vehiculo(request.get_json(), empresa_id=user.empresa_id)
         return vehiculo_schema.dump(vehi), 201
+    
+    @jwt_required
+    def put(self):
+        vehiculo = Vehiculo.update_vehiculo(request.get_json())
+        return vehiculo_schema.dump(vehiculo), 200
+    
+    @jwt_required
+    def delete(self):
+        vehiculo_id = request.args['vehiculo_id']
+        result = Vehiculo.delete_vehiculo(vehiculo_id)
+        return result, 200

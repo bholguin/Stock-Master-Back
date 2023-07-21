@@ -9,14 +9,20 @@ class Usuario(db.Model, BaseModel):
     apellido = db.Column(db.String(50))
     username = db.Column(db.String(50))
     password = db.Column(db.String(255))
+    correo = db.Column(db.String(50))
+    identificacion = db.Column(db.String(50))
+    telefono = db.Column(db.String(50))
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
 
-    def __init__(self, nombre: str, apellido: str, username: str, password: str, empresa_id: int):
+    def __init__(self, nombre: str, apellido: str, username: str, password: str, empresa_id: int, correo: str, identificacion: str, telefono: str ):
         self.nombre = nombre
         self.apellido = apellido
         self.generar_password(password)
         self.username = username
         self.empresa_id = empresa_id
+        self.correo = correo
+        self.telefono = telefono
+        self.identificacion = identificacion
 
     def __repr__(self):
         return f'Usuario({self.nombre})'

@@ -27,7 +27,10 @@ def command_app(app):
             password= password,
             nombre= name,
             apellido= lastname,
-            empresa_id= empresa.id
+            empresa_id= empresa.id,
+            correo=None,
+            identificacion=None,
+            telefono=None
         )
         user_admin.save()
         print('Se creo Exitosamente.')

@@ -49,6 +49,9 @@ class Usuario(db.Model, BaseModel):
         user.nombre = modelo['nombre']
         user.apellido = modelo['apellido']
         user.username = modelo['username']
+        user.correo = modelo['correo']
+        user.telefono = modelo['telefono']
+        user.identificacion = modelo['identificacion']
         user.update()
         return user
 

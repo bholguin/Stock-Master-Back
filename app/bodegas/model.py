@@ -3,7 +3,7 @@ from app.common.db import db, BaseModel
 class Bodega(db.Model, BaseModel):
     __tablename__ = "bodegas"
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50), nullable=False, unique=True)
+    nombre = db.Column(db.String(50), nullable=False)
     direccion = db.Column(db.String(20))
     descripcion = db.Column(db.String(100))
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
@@ -17,9 +17,9 @@ class Bodega(db.Model, BaseModel):
     @classmethod
     def create_bodega(self, modelo: dict, empresa_id: int):
         bodega = Bodega(nombre=modelo["nombre"],
-                            direccion=modelo["direccion"],
-                            descripcion=modelo["descripcion"],
-                            empresa_id=empresa_id)
+                        direccion=modelo["direccion"],
+                        descripcion=modelo["descripcion"],
+                        empresa_id=empresa_id)
         bodega.save()
         return bodega
     

@@ -24,7 +24,7 @@ class BodegaResource(Resource):
     @jwt_required
     def post(self):
         user = get_current_user()
-        bodega = Bodega.create_bodega(request.get_json(), empresa_id=user.empresa_id)
+        bodega = Bodega.create_bodega(request.get_json(), user.empresa_id)
         return bodega_schema.dump(bodega), 201
     
     @jwt_required

@@ -9,7 +9,7 @@ login_schema = LoginSchema()
 class LogoutResource(Resource):
 
     @jwt_required
-    def get(self):
+    def put(self):
         return Login.logout_method(get_raw_jwt()['jti'])
         
 class LoginResource(Resource):

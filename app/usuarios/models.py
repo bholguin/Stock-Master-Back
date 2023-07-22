@@ -2,6 +2,7 @@ from app.common.db import db, BaseModel
 from app.common.error_handling import ObjectNotFound, EmptyMessage
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 class Usuario(db.Model, BaseModel):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
@@ -12,9 +13,10 @@ class Usuario(db.Model, BaseModel):
     correo = db.Column(db.String(50))
     identificacion = db.Column(db.String(50))
     telefono = db.Column(db.String(50))
-    empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
+    empresa_id = db.Column(db.Integer, db.ForeignKey(
+        "empresas.id"), nullable=False)
 
-    def __init__(self, nombre: str, apellido: str, username: str, password: str, empresa_id: int, correo: str, identificacion: str, telefono: str ):
+    def __init__(self, nombre: str, apellido: str, username: str, password: str, empresa_id: int, correo: str, identificacion: str, telefono: str):
         self.nombre = nombre
         self.apellido = apellido
         self.generar_password(password)
@@ -32,7 +34,6 @@ class Usuario(db.Model, BaseModel):
 
     def generar_password(self, password: str):
         self.password = generate_password_hash(password)
-
 
     @classmethod
     def create_user(self, modelo: dict):
@@ -65,13 +66,13 @@ class Usuario(db.Model, BaseModel):
         return check_password_hash(pwhash, password)
 
     @classmethod
-    def update_password(self, id: int, password: str, npassword: str):
+    def update_password(self, modelo: dict, id: int):
         usuario = self.get_by_id(id)
-        if self.check_password(usuario.password, password):
-            usuario.password = npassword
+        if self.check_password(usuario.password, modelo['password'])  :
+            usuario.password = generate_password_hash(modelo['newPassword'])
             self.update()
             raise EmptyMessage()
-        raise ObjectNotFound
+        raise ObjectNotFound()
 
     @classmethod
     def valida_usuario_existe(self, id: int):

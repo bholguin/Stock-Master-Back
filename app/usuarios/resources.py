@@ -1,9 +1,16 @@
 from flask_restful import request, Resource
 from .models import Usuario
 from .schemas import UsuarioSchema
-from flask_jwt_extended import jwt_required, current_user
+from flask_jwt_extended import jwt_required, current_user, get_current_user
 
 usuario_schema = UsuarioSchema()
+
+class ChangePasswordResource(Resource):
+
+    @jwt_required
+    def put(self):
+        user = get_current_user()
+        return Usuario.update_password(request.get_json(), user.id)
 
 class UsuariosResource(Resource):
 

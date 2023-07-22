@@ -6,17 +6,23 @@ class Vehiculo(db.Model, BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     placa = db.Column(db.String(8))
     descripcion = db.Column(db.String(50))
+    marca = db.Column(db.String(50))
+    modelo = db.Column(db.String(50))
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
 
-    def __init__(self, placa: str, descripcion: str, empresa_id: int):
+    def __init__(self, placa: str, descripcion: str, empresa_id: int, marca: str, modelo: str):
         self.descripcion = descripcion
         self.placa = placa
         self.empresa_id = empresa_id
+        self.marca = marca,
+        self.modelo = modelo
 
     @classmethod
     def create_vehiculo(self, modelo: dict, empresa_id: int):
         vehiculo = Vehiculo(descripcion=modelo["descripcion"],
                             placa=modelo["placa"],
+                            marca=modelo['marca'],
+                            modelo=modelo['modelo'],
                             empresa_id=empresa_id)
         vehiculo.save()
         return vehiculo
@@ -26,6 +32,8 @@ class Vehiculo(db.Model, BaseModel):
         vehiculo = self.get_by_id(modelo['id'])
         vehiculo.placa = modelo['placa']
         vehiculo.descripcion = modelo['descripcion']
+        vehiculo.marca = modelo['marca']
+        vehiculo.modelo = modelo['modelo']
         vehiculo.update()
         return vehiculo
     

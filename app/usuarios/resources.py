@@ -16,18 +16,26 @@ class UsuariosResource(Resource):
 
     @jwt_required
     def get(self):
-        usuarios = Usuario.get_all()
+        user = get_current_user()
+        usuarios = Usuario.get_users(user.id, user.empresa_id)
         return usuario_schema.dump(usuarios, many=True)
 
 class UsuarioResource(Resource):
 
     @jwt_required
     def get(self):
-        return usuario_schema.dump(current_user)
+        usuario_id = request.args.get('usuario_id', None)
+        if usuario_id is None:
+            return usuario_schema.dump(current_user)
+        else:
+            usuario = Usuario.get_by_id(usuario_id)
+            return usuario_schema.dump(usuario)
+        
 
     @jwt_required
     def post(self):
-        user = Usuario.create_user(request.get_json())
+        current_user = get_current_user()
+        user = Usuario.create_user(request.get_json(), current_user.empresa_id)
         return usuario_schema.dump(user) , 201
 
     @jwt_required

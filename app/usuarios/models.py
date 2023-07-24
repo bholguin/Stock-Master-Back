@@ -36,13 +36,24 @@ class Usuario(db.Model, BaseModel):
         self.password = generate_password_hash(password)
 
     @classmethod
-    def create_user(self, modelo: dict):
+    def create_user(self, modelo: dict, empresa_id: int):
+        print(modelo, empresa_id)
+        password='123456'
         usuario = Usuario(nombre=modelo['nombre'],
                           apellido=modelo['apellido'],
-                          password=modelo['password'],
-                          username=modelo['username'])
+                          password=password,
+                          username=modelo['username'],
+                          correo=modelo['correo'],
+                          identificacion=modelo['identificacion'],
+                          telefono=modelo['telefono'],
+                          empresa_id=empresa_id)
         usuario.save()
         return usuario
+    
+    @classmethod
+    def get_users(self, user_id: int, empresa_id: int):
+         usuarios = self.query.filter(self.id!=user_id, self.empresa_id==empresa_id).all()
+         return usuarios
 
     @classmethod
     def update_user(self, modelo: dict):

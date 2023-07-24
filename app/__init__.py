@@ -44,7 +44,7 @@ def create_app():
         SWAGGER_URL,
         API_URL,
         config={
-            'app_name': 'Stock Master'
+            'app_name': 'Stock Master Api'
         }
     )
 

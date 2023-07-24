@@ -40,8 +40,3 @@ class EmpresaResource(Resource):
         user = get_current_user()
         empresa = Empresa.update_empresa(request.get_json(), user.empresa_id)
         return empresa_schema.dump(empresa), 200
-
-    @jwt_required
-    def delete(self, id):
-        Empresa.delete_empresa(id)
-        return id, 200

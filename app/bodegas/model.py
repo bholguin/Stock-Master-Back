@@ -1,4 +1,5 @@
 from app.common.db import db, BaseModel
+from app.common.error_handling import ObjectNotFound
 
 class Bodega(db.Model, BaseModel):
     __tablename__ = "bodegas"
@@ -13,6 +14,13 @@ class Bodega(db.Model, BaseModel):
         self.direccion = direccion
         self.descripcion = descripcion
         self.empresa_id = empresa_id
+
+    @classmethod
+    def get_bodega(self, bodega_id: int, empresa_id: int):
+        bodega = self.query.filter(self.id==bodega_id, self.empresa_id == empresa_id).first()
+        if bodega is None:
+             raise ObjectNotFound('La bodega no existe')
+        return bodega
 
     @classmethod
     def create_bodega(self, modelo: dict, empresa_id: int):
@@ -33,7 +41,7 @@ class Bodega(db.Model, BaseModel):
         return bodega
     
     @classmethod
-    def delete_bodega(self, id: int):
-        bodega = self.get_by_id(id)
+    def delete_bodega(self, bodega_id: int, empresa_id: int):
+        bodega = self.get_bodega(bodega_id, empresa_id)
         self.delete(bodega)
-        return id
+        return bodega_id

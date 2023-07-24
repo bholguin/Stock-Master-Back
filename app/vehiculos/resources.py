@@ -20,7 +20,8 @@ class VehiculoResource(Resource):
     @jwt_required
     def get(self):
         vehiculo_id = request.args['vehiculo_id']
-        vehiculo = Vehiculo.get_by_id(vehiculo_id)
+        user = get_current_user()
+        vehiculo = Vehiculo.get_vehiculo(vehiculo_id, user.empresa_id)
         return vehiculo_schema.dump(vehiculo), 200
 
     @jwt_required
@@ -37,5 +38,6 @@ class VehiculoResource(Resource):
     @jwt_required
     def delete(self):
         vehiculo_id = request.args['vehiculo_id']
-        result = Vehiculo.delete_vehiculo(vehiculo_id)
+        user = get_current_user()
+        result = Vehiculo.delete_vehiculo(vehiculo_id, user.empresa_id)
         return result, 200

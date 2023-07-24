@@ -18,7 +18,8 @@ class BodegaResource(Resource):
     @jwt_required
     def get(self):
         bodega_id = request.args['bodega_id']
-        bodega = Bodega.get_by_id(bodega_id)
+        user = get_current_user()
+        bodega = Bodega.get_bodega(bodega_id, user.empresa_id)
         return bodega_schema.dump(bodega), 200
 
     @jwt_required
@@ -35,5 +36,6 @@ class BodegaResource(Resource):
     @jwt_required
     def delete(self):
         bodega_id = request.args['bodega_id']
-        result = Bodega.delete_bodega(bodega_id)
+        user = get_current_user()
+        result = Bodega.delete_bodega(bodega_id, user.empresa_id)
         return result, 200

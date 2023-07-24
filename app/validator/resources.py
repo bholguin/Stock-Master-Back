@@ -1,6 +1,5 @@
 from flask_restful import request, Resource
-from app.vehiculos.models import Vehiculo
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 class ValidatorResource(Resource):
 

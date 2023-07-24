@@ -54,6 +54,13 @@ class Usuario(db.Model, BaseModel):
     def get_users(self, user_id: int, empresa_id: int):
          usuarios = self.query.filter(self.id!=user_id, self.empresa_id==empresa_id).all()
          return usuarios
+    
+    @classmethod
+    def get_user(self, user_id: int, empresa_id: int):
+         usuario = self.query.filter(self.id==user_id, self.empresa_id == empresa_id).first()
+         if usuario is None:
+             raise ObjectNotFound('El usuario no existe')
+         return usuario
 
     @classmethod
     def update_user(self, modelo: dict):

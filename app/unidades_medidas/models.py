@@ -1,4 +1,5 @@
 from app.common.db import db, BaseModel
+from app.common.error_handling import ObjectNotFound
 
 class UnidadesMedidas(db.Model, BaseModel):
     __tablename__ = "unidades_medidas"
@@ -14,6 +15,13 @@ class UnidadesMedidas(db.Model, BaseModel):
         self.prefijo = prefijo
         self.descripcion = descripcion
         self.empresa_id = empresa_id
+
+    @classmethod
+    def get_unidad(self, unidad_id: int, empresa_id: int):
+        unidad = self.query.filter(self.id==unidad_id, self.empresa_id == empresa_id).first()
+        if unidad is None:
+             raise ObjectNotFound('El unidad de medida no existe')
+        return unidad
 
     @classmethod
     def create_unidad(self, modelo: dict, empresa_id: int):
@@ -34,7 +42,7 @@ class UnidadesMedidas(db.Model, BaseModel):
         return unidad
     
     @classmethod
-    def delete_unidad(self, id: int):
-        empresa = self.get_by_id(id)
-        self.delete(empresa)
-        return id
+    def delete_unidad(self, unidad_id: int, empresa_id: int):
+        unidad = self.get_unidad(unidad_id, empresa_id)
+        self.delete(unidad)
+        return unidad_id

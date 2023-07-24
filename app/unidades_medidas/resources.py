@@ -18,7 +18,8 @@ class UnidadMedidaResource(Resource):
     @jwt_required
     def get(self):
         unidad_id = request.args['unidad_id']
-        unidad = UnidadesMedidas.get_by_id(unidad_id)
+        user = get_current_user()
+        unidad = UnidadesMedidas.get_unidad(unidad_id, user.empresa_id)
         return unidades_schema.dump(unidad), 200
 
     @jwt_required
@@ -35,5 +36,6 @@ class UnidadMedidaResource(Resource):
     @jwt_required
     def delete(self):
         unidad_id = request.args['unidad_id']
-        result = UnidadesMedidas.delete_unidad(unidad_id)
+        user = get_current_user()
+        result = UnidadesMedidas.delete_unidad(unidad_id, user.empresa_id)
         return result, 200

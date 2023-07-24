@@ -1,5 +1,5 @@
 from app.common.db import db, BaseModel
-
+from app.common.error_handling import ObjectNotFound
 
 class Vehiculo(db.Model, BaseModel):
     __tablename__ = "vehiculos"
@@ -16,6 +16,13 @@ class Vehiculo(db.Model, BaseModel):
         self.empresa_id = empresa_id
         self.marca = marca,
         self.modelo = modelo
+    
+    @classmethod
+    def get_vehiculo(self, vehiculo_id: int, empresa_id: int):
+        vehiculo = self.query.filter(self.id==vehiculo_id, self.empresa_id == empresa_id).first()
+        if vehiculo is None:
+             raise ObjectNotFound('El vehiculo no existe')
+        return vehiculo
 
     @classmethod
     def create_vehiculo(self, modelo: dict, empresa_id: int):
@@ -38,7 +45,7 @@ class Vehiculo(db.Model, BaseModel):
         return vehiculo
     
     @classmethod
-    def delete_vehiculo(self, id: int):
-        empresa = self.get_by_id(id)
+    def delete_vehiculo(self, vehiculo_id: int, empresa_id: int):
+        empresa = self.get_vehiculo(vehiculo_id, empresa_id)
         self.delete(empresa)
-        return id
+        return vehiculo_id

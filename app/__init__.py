@@ -1,8 +1,9 @@
-from flask import Flask
+from flask import Flask, jsonify
 from app.common.db import db
 from flask_cors import CORS
 from app.common.ext import mh, migrate, jwt
 from flask_restful import Api
+import json
 #config app
 from config.default import config
 #app Extension
@@ -10,6 +11,7 @@ from app.common.command import command_app
 from app.common.jwt_bihavier import jwt_callbacks
 from app.common.error_handlers import register_error_handlers
 #blueprint modules
+from flask_swagger_ui import get_swaggerui_blueprint
 from app.usuarios.routes import modulo_usuarios
 from app.usuarios.auth.routes import modulo_login
 from app.vehiculos.routes import modulo_vehiculos
@@ -35,6 +37,17 @@ def create_app():
     #Deshabilita el modo estricto de acabado de una URL con /
     app.url_map.strict_slashes = False
 
+    #configuracion de swagger
+    SWAGGER_URL = '/swagger'
+    API_URL = '/static/swagger.json'
+    swagger_blueprint = get_swaggerui_blueprint(
+        SWAGGER_URL,
+        API_URL,
+        config={
+            'app_name': 'Stock Master'
+        }
+    )
+
     
     #Registra los blueprints
     app.register_blueprint(modulo_empresa)
@@ -44,6 +57,7 @@ def create_app():
     app.register_blueprint(modulo_unidades_medidas)
     app.register_blueprint(modulo_validator)
     app.register_blueprint(modulo_bodegas)
+    app.register_blueprint(swagger_blueprint, url_prefix = SWAGGER_URL)
 
     #Registra los comandos configurados en esta aplicación
     command_app(app)
@@ -54,6 +68,5 @@ def create_app():
     
 
     return app
-
 
 

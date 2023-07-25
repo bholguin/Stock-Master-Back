@@ -1,4 +1,5 @@
 from app.common.db import db, BaseModel
+from app.common.error_handling import ObjectNotFound
 
 class Producto(db.Model, BaseModel):
     __tablename__ = "productos"
@@ -25,4 +26,27 @@ class Producto(db.Model, BaseModel):
                             empresa_id=empresa_id,
                             unidad_id=modelo['unidad_id'])
         producto.save()
+        return producto
+
+    @classmethod
+    def get_producto(self, producto_id: int, empresa_id: int):
+        producto = self.query.filter(self.id==producto_id, self.empresa_id == empresa_id).first()
+        if producto is None:
+             raise ObjectNotFound('El producto no existe')
+        return producto
+    
+    @classmethod
+    def delete_producto(self, producto_id: int, empresa_id: int):
+        producto = self.get_producto(producto_id, empresa_id)
+        self.delete(producto)
+        return producto_id
+    
+    @classmethod
+    def update_producto(self, modelo: dict):
+        producto = self.get_by_id(modelo['id'])
+        producto.nombre = modelo['nombre']
+        producto.descripcion = modelo['descripcion']
+        producto.referencia = modelo['referencia']
+        producto.unidad_id= modelo['unidad_id']
+        producto.update()
         return producto

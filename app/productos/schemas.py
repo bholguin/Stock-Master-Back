@@ -8,3 +8,4 @@ class ProductoSchema(mh.SQLAlchemyAutoSchema):
         model = Producto
     
     id = mh.auto_field(dump_only=True)
+    unidad = mh.Nested('UnidadesMedidasSchema')

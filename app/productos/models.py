@@ -8,3 +8,4 @@ class Producto(db.Model, BaseModel):
     descripcion = db.Column(db.String(100))
     unidad_id = db.Column(db.Integer, db.ForeignKey("unidades_medidas.id"), nullable=False)
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
+    unidad = db.relationship("UnidadesMedidas", backref="producto")

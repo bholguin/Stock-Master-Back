@@ -1,4 +1,5 @@
 from app.common.db import db, BaseModel
+from app.productos.models import Producto
 from app.common.error_handling import ObjectNotFound
 
 class UnidadesMedidas(db.Model, BaseModel):
@@ -8,7 +9,7 @@ class UnidadesMedidas(db.Model, BaseModel):
     prefijo = db.Column(db.String(20), nullable=False)
     descripcion = db.Column(db.String(100))
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
-
+    productos = db.relationship('Producto', backref='unidades_productos', lazy=True)
 
     def __init__(self, nombre: str, prefijo: str, descripcion: str, empresa_id: int):
         self.nombre = nombre

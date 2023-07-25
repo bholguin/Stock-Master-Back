@@ -19,6 +19,7 @@ from app.empresas.routes import modulo_empresa
 from app.unidades_medidas.routes import modulo_unidades_medidas
 from app.validator.routes import modulo_validator
 from app.bodegas.routes import modulo_bodegas
+from app.productos.routes import modulo_producto
 
 def create_app():
     app = Flask(__name__)
@@ -57,6 +58,7 @@ def create_app():
     app.register_blueprint(modulo_unidades_medidas)
     app.register_blueprint(modulo_validator)
     app.register_blueprint(modulo_bodegas)
+    app.register_blueprint(modulo_producto)
     app.register_blueprint(swagger_blueprint, url_prefix = SWAGGER_URL)
 
     #Registra los comandos configurados en esta aplicación

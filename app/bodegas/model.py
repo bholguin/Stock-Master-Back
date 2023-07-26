@@ -32,8 +32,8 @@ class Bodega(db.Model, BaseModel):
         return bodega
     
     @classmethod
-    def update_bodega(self, modelo: dict):
-        bodega = self.get_by_id(modelo['id'])
+    def update_bodega(self, modelo: dict, empresa_id: int):
+        bodega = self.get_bodega(modelo['id'], empresa_id)
         bodega.nombre = modelo['nombre']
         bodega.descripcion = modelo['descripcion']
         bodega.direccion = modelo['direccion']

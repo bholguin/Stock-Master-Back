@@ -35,8 +35,8 @@ class Vehiculo(db.Model, BaseModel):
         return vehiculo
     
     @classmethod
-    def update_vehiculo(self, modelo: dict):
-        vehiculo = self.get_by_id(modelo['id'])
+    def update_vehiculo(self, modelo: dict, empresa_id: int):
+        vehiculo = self.get_vehiculo(modelo['id'], empresa_id)
         vehiculo.placa = modelo['placa']
         vehiculo.descripcion = modelo['descripcion']
         vehiculo.marca = modelo['marca']

@@ -63,8 +63,8 @@ class Usuario(db.Model, BaseModel):
          return usuario
 
     @classmethod
-    def update_user(self, modelo: dict):
-        user = self.valida_usuario_existe(int(modelo['id']))
+    def update_user(self, modelo: dict, empresa_id: int):
+        user = self.valida_usuario_existe(int(modelo['id'], empresa_id))
         user.nombre = modelo['nombre']
         user.apellido = modelo['apellido']
         user.username = modelo['username']
@@ -93,8 +93,8 @@ class Usuario(db.Model, BaseModel):
         raise ObjectNotFound()
 
     @classmethod
-    def valida_usuario_existe(self, id: int):
-        usuario = self.get_by_id(id)
+    def valida_usuario_existe(self, id: int, empresa_id: int):
+        usuario = self.query.filter(self.id==id, self.empresa_id == empresa_id).first()
         if usuario is None:
             raise ObjectNotFound()
         return usuario

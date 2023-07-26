@@ -9,7 +9,8 @@ class ProductosResource(Resource):
 
     @jwt_required
     def get(self):
-        productos = Producto.get_all()
+        user = get_current_user()
+        productos = Producto.query.filter(Producto.empresa_id==user.empresa_id)
         return producto_schema.dump(productos, many=True)
     
 class ProductoResource(Resource):
@@ -29,7 +30,8 @@ class ProductoResource(Resource):
     
     @jwt_required
     def put(self):
-        producto = Producto.update_producto(request.get_json())
+        user = get_current_user()
+        producto = Producto.update_producto(request.get_json(), user.empresa_id)
         return producto_schema.dump(producto), 200
 
     @jwt_required

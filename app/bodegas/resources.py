@@ -30,7 +30,8 @@ class BodegaResource(Resource):
     
     @jwt_required
     def put(self):
-        bodega = Bodega.update_bodega(request.get_json())
+        user = get_current_user()
+        bodega = Bodega.update_bodega(request.get_json(), user.empresa_id)
         return bodega_schema.dump(bodega), 200
     
     @jwt_required

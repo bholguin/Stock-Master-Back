@@ -32,7 +32,8 @@ class VehiculoResource(Resource):
     
     @jwt_required
     def put(self):
-        vehiculo = Vehiculo.update_vehiculo(request.get_json())
+        user = get_current_user()
+        vehiculo = Vehiculo.update_vehiculo(request.get_json(), user.empresa_id)
         return vehiculo_schema.dump(vehiculo), 200
     
     @jwt_required

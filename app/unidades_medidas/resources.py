@@ -30,7 +30,8 @@ class UnidadMedidaResource(Resource):
     
     @jwt_required
     def put(self):
-        unidad = UnidadesMedidas.update_unidad(request.get_json())
+        user = get_current_user()
+        unidad = UnidadesMedidas.update_unidad(request.get_json(), user.empresa_id)
         return unidades_schema.dump(unidad), 200
     
     @jwt_required

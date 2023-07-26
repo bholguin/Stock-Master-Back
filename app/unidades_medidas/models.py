@@ -34,8 +34,8 @@ class UnidadesMedidas(db.Model, BaseModel):
         return unidad
     
     @classmethod
-    def update_unidad(self, modelo: dict):
-        unidad = self.get_by_id(modelo['id'])
+    def update_unidad(self, modelo: dict, empresa_id: int):
+        unidad = self.get_unidad(modelo['id'], empresa_id)
         unidad.nombre = modelo['nombre']
         unidad.descripcion = modelo['descripcion']
         unidad.prefijo = modelo['prefijo']

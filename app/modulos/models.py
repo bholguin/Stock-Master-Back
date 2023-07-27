@@ -7,5 +7,5 @@ class Modulo(db.Model, BaseModel):
     go = db.Column(db.String(50))
     submodulos = db.relationship('Submodulo', backref='submodulos', lazy=True)
 
-    def __init__():
+    def __init__(slef):
         pass

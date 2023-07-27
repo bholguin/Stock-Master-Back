@@ -1,4 +1,5 @@
 from app.common.db import db, BaseModel
+from app.documentos.models import Documento
 from app.common.error_handling import ObjectNotFound
 
 class Bodega(db.Model, BaseModel):
@@ -8,6 +9,7 @@ class Bodega(db.Model, BaseModel):
     direccion = db.Column(db.String(20))
     descripcion = db.Column(db.String(100))
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
+    documentos = db.relationship('Documento', backref='bodega_documentos')
 
     def __init__(self, nombre: str, direccion: str, descripcion: str, empresa_id: int):
         self.nombre = nombre

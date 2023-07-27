@@ -5,6 +5,7 @@ from app.bodegas.model import Bodega
 from app.productos.models import Producto
 from app.unidades_medidas.models import UnidadesMedidas
 from app.tipos_documento.models import TipoDocumento
+from app.documentos.models import Documento
 from app.common.error_handling import ObjectNotFound, ForbiddenError
 
 
@@ -21,6 +22,7 @@ class Empresa(db.Model, BaseModel):
     bodegas = db.relationship('Bodega', backref='bodegas')
     productos = db.relationship('Producto', backref='productos', lazy=True)
     tipos_documento = db.relationship('TipoDocumento', backref='empresa_tipodoc', lazy=True)
+    documentos = db.relationship('Documento', backref='empresa_documentos')
 
     def __init__(self, nombre: str, nit: int, direccion: str, telefono: str):
         self.nombre = nombre

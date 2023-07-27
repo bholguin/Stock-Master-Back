@@ -1,5 +1,6 @@
 from app.common.db import db, BaseModel
 from app.productos.models import Producto
+from app.documentos.models import Documento
 from app.common.error_handling import ObjectNotFound
 
 class TipoDocumento(db.Model, BaseModel):
@@ -11,6 +12,7 @@ class TipoDocumento(db.Model, BaseModel):
     consecutivo = db.Column(db.Integer)
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
     submodulo_id = db.Column(db.String(20), db.ForeignKey("submodulos.id"), nullable=False)
+    documentos = db.relationship('Documento', backref='tipodoc_documentos')
 
     def __init__(self, nombre: str, prefijo: str, descripcion: str, consecutivo: int, submodulo_id: str,  empresa_id: int):
         self.nombre = nombre

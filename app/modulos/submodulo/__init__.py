@@ -1,0 +1,1 @@
+from app.modulos.submodulo.models import Submodulo

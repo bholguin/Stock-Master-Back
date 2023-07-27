@@ -9,3 +9,8 @@ class Modulo(db.Model, BaseModel):
 
     def __init__(slef):
         pass
+
+    @classmethod
+    def modulos_with_document(self):
+        modulos = self.query.filter(self.submodulos.any(tipo_doc=True)).all()
+        return modulos

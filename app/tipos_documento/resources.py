@@ -34,3 +34,9 @@ class TipoDocumentoResource(Resource):
         tipodoc = TipoDocumento.update_tipodoc(request.get_json(), user.empresa_id)
         return tipodoc_schema.dump(tipodoc), 200
 
+    @jwt_required
+    def delete(self):
+        tipodoc_id = request.args['tipodoc_id']
+        user = get_current_user()
+        result = TipoDocumento.delete_tipodoc(tipodoc_id, user.empresa_id)
+        return result, 200

@@ -1,0 +1,1 @@
+from app.documentos.models import Documento

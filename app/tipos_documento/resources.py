@@ -9,9 +9,15 @@ class TiposDocumentoResource(Resource):
 
     @jwt_required
     def get(self):
+        submodulo_id = request.args.get('submodulo_id', None)
         user = get_current_user()
-        tipos_doc = TipoDocumento.simple_filter(empresa_id=user.empresa_id)
-        return tipodoc_schema.dump(tipos_doc, many=True), 200
+        if submodulo_id is None:
+            tipos_doc = TipoDocumento.simple_filter(empresa_id=user.empresa_id)
+            return tipodoc_schema.dump(tipos_doc, many=True), 200
+        else:
+            tipos_doc = TipoDocumento.simple_filter(empresa_id=user.empresa_id, submodulo_id=submodulo_id)
+            return tipodoc_schema.dump(tipos_doc, many=True), 200
+
     
 class TipoDocumentoResource(Resource):
 

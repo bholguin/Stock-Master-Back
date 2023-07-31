@@ -13,6 +13,8 @@ class Documento(db.Model, BaseModel):
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"), nullable=False)
     vehiculo_id = db.Column(db.Integer, db.ForeignKey("vehiculos.id"), nullable=True)
     items = db.relationship("Item", backref="documento_item", lazy=True)
+    tipodoc = db.relationship("TipoDocumento", backref="tipodoc")
+    bodega = db.relationship("Bodega", backref="bodega")
 
     def __init__(self, consecutivo: int , empresa_id: int, tipodoc_id: int, bodega_id: int, usuario_id: int, vehiculo_id: int, concepto: str):
         self.consecutivo = consecutivo

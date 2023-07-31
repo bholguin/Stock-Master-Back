@@ -8,3 +8,5 @@ class DocumentoSchema(mh.SQLAlchemyAutoSchema):
         model = Documento
     
     id = mh.auto_field(dump_only=True)
+    tipodoc = mh.Nested('TipoDocumentoSchema')
+    bodega = mh.Nested('BodegasSchema')

@@ -14,7 +14,7 @@ class Documento(db.Model, BaseModel):
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"), nullable=False)
     vehiculo_id = db.Column(db.Integer, db.ForeignKey("vehiculos.id"), nullable=True)
     items = db.relationship("Item", backref="documento_item", lazy=True)
-    tipodoc = db.relationship("TipoDocumento", backref="tipodoc")
+    tipodoc = db.relationship("TipoDocumento", backref="tipodoc", lazy=True)
     bodega = db.relationship("Bodega", backref="bodega")
     movimientos = db.relationship('Movimiento', backref='documento_movimientos')
 

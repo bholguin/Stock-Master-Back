@@ -12,8 +12,9 @@ class Movimiento(db.Model, BaseModel):
     documento_id = db.Column(db.Integer, db.ForeignKey("documentos.id"), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey("items.id"), nullable=False)
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"), nullable=False)
+    bodega_id = db.Column(db.Integer, db.ForeignKey("bodegas.id"), nullable=False)
 
-    def __init__(self, tipo: str, cantidad: int, producto_id: int, empresa_id: int, documento_id: int, item_id: int, usuario_id: int):
+    def __init__(self, tipo: str, cantidad: int, bodega_id: int, producto_id: int, empresa_id: int, documento_id: int, item_id: int, usuario_id: int):
         self.cantidad = cantidad
         self.producto_id = producto_id
         self.empresa_id = empresa_id
@@ -21,5 +22,6 @@ class Movimiento(db.Model, BaseModel):
         self.item_id = item_id
         self.usuario_id = usuario_id
         self.tipo = tipo
+        self.bodega_id = bodega_id
 
 

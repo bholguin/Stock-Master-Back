@@ -3,30 +3,30 @@ from app.documentos.items.models import Item
 from app.tipos_documento.models import TipoDocumento
 from app.movimientos.models import Movimiento
 from app.common.error_handling import ObjectNotFound
-class Entrada(Documento):
+class Salida(Documento):
 
     @classmethod
-    def get_entradas(self, empresa_id: int):
-        entradas = self.query.join(TipoDocumento).filter(TipoDocumento.submodulo_id=="ENTRADAS", empresa_id==empresa_id).all()
-        return entradas
+    def get_salidas(self, empresa_id: int):
+        salidas = self.query.join(TipoDocumento).filter(TipoDocumento.submodulo_id=="SALIDAS", empresa_id==empresa_id).all()
+        return salidas
 
     @classmethod
-    def get_items(self, entrada_id: int):
-        items = Item.query.filter(Item.documento_id==entrada_id).all()
+    def get_items(self, salida_id: int):
+        items = Item.query.filter(Item.documento_id==salida_id).all()
         return items
 
     @classmethod
-    def get_entrada(self, entrada_id: int, empresa_id: int):
-        entrada = self.query.join(TipoDocumento).filter(TipoDocumento.submodulo_id=="ENTRADAS", self.id==entrada_id, self.empresa_id == empresa_id).first()
-        if entrada is None:
-            raise ObjectNotFound('La entrada a bodega no existe')
-        return entrada
+    def get_salida(self, salida_id: int, empresa_id: int):
+        salidas = self.query.join(TipoDocumento).filter(TipoDocumento.submodulo_id=="SALIDAS", self.id==salida_id, self.empresa_id == empresa_id).first()
+        if salidas is None:
+            raise ObjectNotFound('La salida de bodega no existe')
+        return salidas
 
     @classmethod
-    def create_entrada(self, modelo: dict, usuario_id: int, empresa_id: int):
+    def create_salida(self, modelo: dict, usuario_id: int, empresa_id: int):
         tipodoc = TipoDocumento.get_tipo_doc(int(modelo["tipodoc_id"]), empresa_id)
         consecutivo = (tipodoc.consecutivo +1)
-        entrada = Entrada(consecutivo=consecutivo,
+        salida = Salida(consecutivo=consecutivo,
                            tipodoc_id=int(modelo["tipodoc_id"]),
                            bodega_id=int(modelo["bodega_id"]),
                            concepto=modelo.get('concepto', None),
@@ -35,13 +35,13 @@ class Entrada(Documento):
                            empresa_id=empresa_id)
 
         tipodoc.consecutivo = consecutivo
-        entrada.save()
+        salida.save()
         tipodoc.update()
 
         for item in modelo['productos']:
             product = Item(cantidad=int(item['cantidad']),
                            producto_id=int(item['producto_id']),
-                           documento_id=entrada.id)
+                           documento_id=salida.id)
             product.save()
 
             movimiento = Movimiento(
@@ -51,10 +51,10 @@ class Entrada(Documento):
                 item_id=product.id,
                 cantidad=product.cantidad,
                 usuario_id=usuario_id,
-                bodega_id=entrada.bodega_id,
-                tipo="E"
+                bodega_id=salida.bodega_id,
+                tipo="S"
             )
 
             movimiento.save()
 
-        return entrada
+        return salida

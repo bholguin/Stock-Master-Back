@@ -5,6 +5,7 @@ class Item(db.Model, BaseModel):
     cantidad = db.Column(db.Float, nullable=False)
     producto_id = db.Column(db.Integer, db.ForeignKey("productos.id"), nullable=False)
     documento_id = db.Column(db.Integer, db.ForeignKey("documentos.id"), nullable=False)
+    producto = db.relationship("Producto", backref="producto")
 
     def __init__(self, cantidad, producto_id: int, documento_id: int):
         self.cantidad = cantidad

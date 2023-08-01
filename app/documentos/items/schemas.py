@@ -8,3 +8,4 @@ class ItemSchema(mh.SQLAlchemyAutoSchema):
         model = Item
     
     id = mh.auto_field(dump_only=True)
+    producto = mh.Nested("ProductoSchema")

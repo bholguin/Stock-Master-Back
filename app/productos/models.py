@@ -1,5 +1,6 @@
 from app.common.db import db, BaseModel
 from app.documentos.items.models import Item
+from app.movimientos.models import Movimiento
 from app.common.error_handling import ObjectNotFound
 
 class Producto(db.Model, BaseModel):
@@ -12,6 +13,7 @@ class Producto(db.Model, BaseModel):
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
     unidad = db.relationship("UnidadesMedidas", backref="producto")
     items = db.relationship("Item", backref="producto_item")
+    movimientos = db.relationship('Movimiento', backref='productos_movimientos')
 
     def __init__(self, nombre: str, referencia: str, descripcion: str, unidad_id: int, empresa_id: int):
         self.nombre = nombre

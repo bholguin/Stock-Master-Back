@@ -1,5 +1,6 @@
 from app.common.db import db, BaseModel
 from app.documentos.models import Documento
+from app.movimientos.models import Movimiento
 from app.common.error_handling import ObjectNotFound, EmptyMessage
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -17,6 +18,7 @@ class Usuario(db.Model, BaseModel):
     empresa_id = db.Column(db.Integer, db.ForeignKey(
         "empresas.id"), nullable=False)
     documentos = db.relationship('Documento', backref='usuario_documentos')
+    movimientos = db.relationship('Movimiento', backref='usuario_movimientos')
 
     def __init__(self, nombre: str, apellido: str, username: str, password: str, empresa_id: int, correo: str, identificacion: str, telefono: str):
         self.nombre = nombre

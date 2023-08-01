@@ -1,6 +1,7 @@
 from app.documentos.models import Documento
 from app.documentos.items.models import Item
 from app.tipos_documento.models import TipoDocumento
+from app.movimientos.models import Movimiento
 from app.common.error_handling import ObjectNotFound
 class Entrada(Documento):
 
@@ -42,5 +43,17 @@ class Entrada(Documento):
                            producto_id=int(item['producto_id']),
                            documento_id=entrada.id)
             product.save()
+
+            movimiento = Movimiento(
+                empresa_id=empresa_id,
+                producto_id=product.producto_id,
+                documento_id=product.documento_id,
+                item_id=product.id,
+                cantidad=product.cantidad,
+                usuario_id=usuario_id,
+                tipo="E"
+            )
+
+            movimiento.save()
 
         return entrada

@@ -1,5 +1,6 @@
 from app.common.db import db, BaseModel
 from app.documentos.items.models import Item
+from app.movimientos.models import Movimiento
 from datetime import datetime
 class Documento(db.Model, BaseModel):
     __tablename__ = "documentos"
@@ -15,6 +16,7 @@ class Documento(db.Model, BaseModel):
     items = db.relationship("Item", backref="documento_item", lazy=True)
     tipodoc = db.relationship("TipoDocumento", backref="tipodoc")
     bodega = db.relationship("Bodega", backref="bodega")
+    movimientos = db.relationship('Movimiento', backref='documento_movimientos')
 
     def __init__(self, consecutivo: int , empresa_id: int, tipodoc_id: int, bodega_id: int, usuario_id: int, vehiculo_id: int, concepto: str):
         self.consecutivo = consecutivo

@@ -1,9 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask
+import os
 from app.common.db import db
 from flask_cors import CORS
 from app.common.ext import mh, migrate, jwt
 from flask_restful import Api
-import json
 #config app
 from config.default import config
 #app Extension
@@ -29,10 +29,9 @@ from app.movimientos.routes import modulo_movimientos
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(config['development'])
-    config['development'].init_app(app)
+    enviroment = os.getenv('FLASK_ENV')
+    app.config.from_object(config[enviroment])
     #inicializa cors
-    #CORS(app)
     CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
     #Inicializa las extensiones
     db.init_app(app)

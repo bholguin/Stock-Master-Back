@@ -29,7 +29,7 @@ from app.movimientos.routes import modulo_movimientos
 
 def create_app():
     app = Flask(__name__)
-    enviroment = os.getenv('FLASK_ENV')
+    enviroment = 'production'
     app.config.from_object(config[enviroment])
     #inicializa cors
     CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)

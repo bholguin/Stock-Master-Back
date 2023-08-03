@@ -13,6 +13,7 @@ class Movimiento(db.Model, BaseModel):
     item_id = db.Column(db.Integer, db.ForeignKey("items.id"), nullable=False)
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"), nullable=False)
     bodega_id = db.Column(db.Integer, db.ForeignKey("bodegas.id"), nullable=False)
+    documento = db.relationship("Documento", backref="documento")
 
     def __init__(self, tipo: str, cantidad: int, bodega_id: int, producto_id: int, empresa_id: int, documento_id: int, item_id: int, usuario_id: int):
         self.cantidad = cantidad
@@ -24,4 +25,10 @@ class Movimiento(db.Model, BaseModel):
         self.tipo = tipo
         self.bodega_id = bodega_id
 
+    @classmethod
+    def get_kadex(self, empresa_id: int, producto_id: int, bodega_id: int):
+        movimientos = self.query.filter(self.empresa_id==empresa_id,
+                                        self.producto_id==producto_id,
+                                        self.bodega_id==bodega_id).all()
+        return movimientos
 

@@ -1,4 +1,5 @@
 from app.documentos.models import Documento
+from sqlalchemy import desc
 from app.documentos.items.models import Item
 from app.tipos_documento.models import TipoDocumento
 from app.movimientos.models import Movimiento
@@ -7,7 +8,7 @@ class Entrada(Documento):
 
     @classmethod
     def get_entradas(self, empresa_id: int):
-        entradas = self.query.join(TipoDocumento).filter(TipoDocumento.submodulo_id=="ENTRADAS", empresa_id==empresa_id).all()
+        entradas = self.query.join(TipoDocumento).filter(TipoDocumento.submodulo_id=="ENTRADAS", empresa_id==empresa_id).order_by(desc(self.creado)).all()
         return entradas
 
     @classmethod

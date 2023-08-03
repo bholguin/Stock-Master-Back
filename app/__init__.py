@@ -25,6 +25,7 @@ from app.modulos.submodulo.routes import modulo_submodulos
 from app.tipos_documento.routes import modulo_tipodoc
 from app.entradas.routes import modulo_entradas
 from app.salidas.routes import modulo_salidas
+from app.movimientos.routes import modulo_movimientos
 
 def create_app():
     app = Flask(__name__)
@@ -69,6 +70,7 @@ def create_app():
     app.register_blueprint(modulo_tipodoc)
     app.register_blueprint(modulo_entradas)
     app.register_blueprint(modulo_salidas)
+    app.register_blueprint(modulo_movimientos)
     app.register_blueprint(swagger_blueprint, url_prefix = SWAGGER_URL)
 
     #Registra los comandos configurados en esta aplicación

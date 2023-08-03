@@ -3,11 +3,12 @@ from app.documentos.items.models import Item
 from app.tipos_documento.models import TipoDocumento
 from app.movimientos.models import Movimiento
 from app.common.error_handling import ObjectNotFound
+from sqlalchemy import desc
 class Salida(Documento):
 
     @classmethod
     def get_salidas(self, empresa_id: int):
-        salidas = self.query.join(TipoDocumento).filter(TipoDocumento.submodulo_id=="SALIDAS", empresa_id==empresa_id).all()
+        salidas = self.query.join(TipoDocumento).filter(TipoDocumento.submodulo_id=="SALIDAS", empresa_id==empresa_id).order_by(desc(self.creado)).all()
         return salidas
 
     @classmethod

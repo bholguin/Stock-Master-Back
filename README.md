@@ -17,7 +17,7 @@ venv\Scripts\activate
 flask db init
 flask db migrate
 flask db upgrade
-flask run
+flask run 
 ```
 
 ## Create first user

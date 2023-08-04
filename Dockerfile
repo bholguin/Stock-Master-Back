@@ -16,6 +16,9 @@ RUN apk add libffi-dev
 
 RUN pip3 install --upgrade pip
 RUN . /opt/venv/bin/activate && pip3 install -r requirements.txt
+RUN . /opt/venv/bin/activate && flask db init
+RUN . /opt/venv/bin/activate && flask db migrate
+RUN . /opt/venv/bin/activate && flask db upgrade
 
 EXPOSE 9090
 

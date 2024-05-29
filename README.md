@@ -1,5 +1,10 @@
 # Quick start
 
+## Requirement
+
+* Python < 3.12.0
+* For Windows [Install Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+
 ## Configure the project
 
 ```bash

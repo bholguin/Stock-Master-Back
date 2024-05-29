@@ -1,5 +1,4 @@
 from flask import Flask
-import os
 from app.common.db import db
 from flask_cors import CORS
 from app.common.ext import mh, migrate, jwt
@@ -29,7 +28,7 @@ from app.movimientos.routes import modulo_movimientos
 
 def create_app():
     app = Flask(__name__)
-    enviroment = 'production'
+    enviroment = 'development'
     app.config.from_object(config[enviroment])
     #inicializa cors
     CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)

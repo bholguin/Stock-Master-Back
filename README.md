@@ -25,11 +25,11 @@ flask db upgrade
 flask run
 ```
 
-## Create first user
+## Create first business
 
 ```bash
 venv\Scripts\activate
-flask create-user-admin
+flask flask create_business
 ```
 
 ## Update requirements

@@ -38,6 +38,12 @@ flask flask create_business
 pip freeze > requirements.txt 
 ```
 
+## Run Tests
+
+```bash
+python -m pytest -s
+```
+
 ## Documentation
 
 * [Flask Documentation](https://flask.palletsprojects.com/en/2.3.x/).

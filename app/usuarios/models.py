@@ -41,7 +41,6 @@ class Usuario(db.Model, BaseModel):
 
     @classmethod
     def create_user(self, modelo: dict, empresa_id: int):
-        print(modelo, empresa_id)
         password='123456'
         usuario = Usuario(nombre=modelo['nombre'],
                           apellido=modelo['apellido'],
@@ -80,8 +79,8 @@ class Usuario(db.Model, BaseModel):
         return user
 
     @classmethod
-    def delete_user(self, id: int):
-        user = self.valida_usuario_existe(id)
+    def delete_user(self, id: int, empresa_id: int):
+        user = self.valida_usuario_existe(id, empresa_id)
         self.delete(user)
 
     @classmethod

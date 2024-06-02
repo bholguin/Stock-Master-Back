@@ -41,8 +41,10 @@ class UsuarioResource(Resource):
         return usuario_schema.dump(user) , 201
 
     @jwt_required
-    def delete(self, id):
-        Usuario.delete_user(id)
+    def delete(self):
+        current_user = get_current_user()
+        id = request.args['id']
+        Usuario.delete_user(id, current_user.empresa_id)
         return id, 200
 
     @jwt_required

@@ -1,11 +1,38 @@
-from app.usuarios import Usuario
 
-def test_new_usuario():
-    """
-        GIVEN a User model
-        WHEN a new User is created
-        THEN check the email, hashed_password, and role fields are defined correctly
-    """
-    user = Usuario("Brayhan", "Holguin", "bholguin", "", 1, "bholguin1488@gmail.com", "1143952325", "")
-    assert user.nombre == "Brayhan"
-    assert user.apellido == "Holguin"
+
+def test_usuario_module(custom_headers, client):
+
+    response = client.get(
+        "/api/usuarios", 
+        headers=custom_headers,
+    )
+
+    users = response.get_json()
+
+    assert len(users) > 0
+
+    req = dict()
+    req["nombre"] = "Juan"
+    req["apellido"] = "Perez"
+    req["correo"] = "juan@test.com"
+    req["username"] = "jperez"
+    req["identificacion"] = ""
+    req["telefono"] = ""
+
+    response = client.post(
+        "/api/usuario", 
+        headers=custom_headers,
+        json=req
+    )
+
+    assert response.status == "201 CREATED"
+    
+    usr = response.get_json()
+
+    response = client.delete(
+        "/api/usuario", 
+        headers=custom_headers,
+        query_string={"id": usr["id"]},
+    )
+
+    assert response.status == "200 OK"

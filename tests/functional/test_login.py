@@ -15,6 +15,8 @@ def test_login(client):
     assert response.status == "200 OK"
     assert isinstance(json_response, str)
 
+    
+
 def test_login_unexisting_tenant(client):
     req = dict()
     req["username"] = "admin"

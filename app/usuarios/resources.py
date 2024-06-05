@@ -51,6 +51,6 @@ class UsuarioResource(Resource):
     def put(self):
         current_user = get_current_user()
         user = Usuario.update_user(request.get_json(), current_user.empresa_id)
-        return usuario_schema.dump(user), 201
+        return usuario_schema.dump(user), 200
 
 

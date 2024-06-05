@@ -17,7 +17,7 @@ def client(app):
 
 
 @pytest.fixture()
-def token(client):
+def token(client) -> str:
     req = dict()
     req["username"] = "admin"
     req["password"] = "1234"
@@ -35,7 +35,7 @@ def token(client):
 
 
 @pytest.fixture()
-def custom_headers(token):
+def custom_headers(token) -> dict:
     return {
         "Content-Type": "application/json",
         "Authorization": token

@@ -1,9 +1,10 @@
 #Para interactuar con la base de datos a través de su ORM
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
 
 db = SQLAlchemy()
 
-class BaseModel:
+class BaseModel(DeclarativeBase):
 
     def save(self):
         db.session.add(self)

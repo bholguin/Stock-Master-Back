@@ -1,19 +1,25 @@
 from app.common.db import db, BaseModel
 from datetime import datetime
+from app.documentos.models import Documento
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Integer, DateTime, Float
 
 class Movimiento(db.Model, BaseModel):
     __tablename__ = "movimientos"
-    id = db.Column(db.Integer, primary_key=True)
-    creado = db.Column(db.DateTime, default=datetime.utcnow)
-    cantidad = db.Column(db.Float, nullable=False)
-    tipo = db.Column(db.String(1), nullable=False)
-    producto_id = db.Column(db.Integer, db.ForeignKey("productos.id"), nullable=False)
-    empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
-    documento_id = db.Column(db.Integer, db.ForeignKey("documentos.id"), nullable=False)
-    item_id = db.Column(db.Integer, db.ForeignKey("items.id"), nullable=False)
-    usuario_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"), nullable=False)
-    bodega_id = db.Column(db.Integer, db.ForeignKey("bodegas.id"), nullable=False)
-    documento = db.relationship("Documento", backref="documento")
+    id: Mapped[int] = mapped_column(primary_key=True)
+    creado = mapped_column(DateTime, default=datetime.now(datetime.UTC))
+    cantidad = mapped_column(Float)
+    tipo: Mapped[str] = mapped_column(String(1))
+    empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
+    producto_id =  mapped_column(Integer, ForeignKey("productos.id"))
+    documento_id = mapped_column(Integer, ForeignKey("documentos.id"))
+    item_id = mapped_column(Integer, ForeignKey("items.id"))
+    usuario_id = mapped_column(Integer, ForeignKey("usuarios.id"))
+    bodega_id = mapped_column(Integer, ForeignKey("bodegas.id"))
+    documento: Mapped["Documento"] = relationship(
+        back_populates="documento", cascade="all, delete-orphan"
+    )
+    documento =  db.relationship("Documento", backref="documento")
 
     def __init__(self, tipo: str, cantidad: int, bodega_id: int, producto_id: int, empresa_id: int, documento_id: int, item_id: int, usuario_id: int):
         self.cantidad = cantidad

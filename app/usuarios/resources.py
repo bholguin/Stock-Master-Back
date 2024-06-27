@@ -1,6 +1,6 @@
 from flask_restful import request, Resource
-from .models import Usuario
-from .schemas import UsuarioSchema
+from app.usuarios.models import Usuario
+from app.usuarios.schemas import UsuarioSchema
 from flask_jwt_extended import jwt_required, get_current_user
 
 usuario_schema = UsuarioSchema()

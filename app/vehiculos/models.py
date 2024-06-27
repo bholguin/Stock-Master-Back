@@ -1,16 +1,21 @@
 from app.common.db import db, BaseModel
 from app.documentos.models import Documento
 from app.common.error_handling import ObjectNotFound
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Integer
+from typing import List, Optional
 
 class Vehiculo(db.Model, BaseModel):
     __tablename__ = "vehiculos"
-    id = db.Column(db.Integer, primary_key=True)
-    placa = db.Column(db.String(8))
-    descripcion = db.Column(db.String(50))
-    marca = db.Column(db.String(50))
-    modelo = db.Column(db.String(50))
-    empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
-    documentos = db.relationship('Documento', backref='vehiculo_documentos')
+    id: Mapped[int] = mapped_column(primary_key=True)
+    placa: Mapped[str] = mapped_column(String(8))
+    descripcion: Mapped[Optional[str]]
+    marca: Mapped[Optional[str]]
+    modelo: Mapped[Optional[str]]
+    empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
+    documentos: Mapped[List["Documento"]] = relationship(
+        back_populates="vehiculo_documentos", cascade="all, delete-orphan"
+    )
 
     def __init__(self, placa: str, descripcion: str, empresa_id: int, marca: str, modelo: str):
         self.descripcion = descripcion

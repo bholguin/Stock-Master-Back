@@ -5,16 +5,17 @@ from datetime import datetime
 from flask_jwt_extended import (
     create_access_token, decode_token
 )
-
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, Boolean, DateTime
 
 class TokenBlacklist(db.Model, BaseModel):
     __tablename__ = 'token_blacklist'
-    id = db.Column(db.Integer, primary_key=True)
-    jti = db.Column(db.String(36), nullable=False)
-    token_type = db.Column(db.String(10), nullable=False)
-    user_identity = db.Column(db.String(50), nullable=False)
-    revoked = db.Column(db.Boolean, nullable=False)
-    expires = db.Column(db.DateTime, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    jti: Mapped[str] = mapped_column(String(36))
+    token_type: Mapped[str] = mapped_column(String(10))
+    user_identity: Mapped[str] = mapped_column(String(50))
+    revoked: Mapped[bool] = mapped_column(Boolean)
+    expires = mapped_column(DateTime)
 
     def __init__(self, jti, token_type, user_identity, revoked, expires):
         self.jti = jti

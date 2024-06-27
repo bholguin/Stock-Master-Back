@@ -8,23 +8,42 @@ from app.tipos_documento.models import TipoDocumento
 from app.documentos.models import Documento
 from app.movimientos.models import Movimiento
 from app.common.error_handling import ObjectNotFound, ForbiddenError
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String
+from typing import Optional, List
 
 
 class Empresa(db.Model, BaseModel):
     __tablename__ = "empresas"
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(80), unique=True)
-    nit = db.Column(db.String(15))
-    direccion = db.Column(db.String(50))
-    telefono = db.Column(db.String(15))
-    vahiculos = db.relationship('Vehiculo', backref='vehiculo')
-    usuarios = db.relationship('Usuario', backref='usuario', lazy=True)
-    unidades = db.relationship('UnidadesMedidas', backref='unidades')
-    bodegas = db.relationship('Bodega', backref='bodegas')
-    productos = db.relationship('Producto', backref='productos', lazy=True)
-    tipos_documento = db.relationship('TipoDocumento', backref='empresa_tipodoc', lazy=True)
-    documentos = db.relationship('Documento', backref='empresa_documentos')
-    movimientos = db.relationship('Movimiento', backref='empresa_movimientos')
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str]  = mapped_column(String(80), unique=True)
+    nit: Mapped[str]  = db.Column(db.String(15))
+    direccion: Mapped[Optional[str]]
+    telefono: Mapped[Optional[str]]
+    vehiculos: Mapped[List["Vehiculo"]] = relationship(
+        back_populates="vehiculo", cascade="all, delete-orphan"
+    )
+    usuarios: Mapped[List["Usuario"]] = relationship(
+        back_populates="usuario", cascade="all, delete-orphan"
+    )
+    unidades: Mapped[List["UnidadesMedidas"]] = relationship(
+        back_populates="unidades", cascade="all, delete-orphan"
+    )
+    bodegas: Mapped[List["Bodega"]] = relationship(
+        back_populates="bodegas", cascade="all, delete-orphan"
+    )
+    productos: Mapped[List["Producto"]] = relationship(
+        back_populates="productos", cascade="all, delete-orphan"
+    )
+    tipos_documento: Mapped[List["TipoDocumento"]] = relationship(
+        back_populates="empresa_tipodoc", cascade="all, delete-orphan"
+    )
+    documentos: Mapped[List["Documento"]] = relationship(
+        back_populates="empresa_documentos", cascade="all, delete-orphan"
+    )
+    movimientos: Mapped[List["Movimiento"]] = relationship(
+        back_populates="empresa_movimientos", cascade="all, delete-orphan"
+    )
 
     def __init__(self, nombre: str, nit: int, direccion: str, telefono: str):
         self.nombre = nombre

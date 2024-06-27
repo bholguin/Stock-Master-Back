@@ -34,6 +34,10 @@ class DevelopmentConfig(Config):
     # Se deshabilitan los mensajes de log de SQLAlchemy.
     SHOW_SQLALCHEMY_LOG_MESSAGES = True
 
+    OIDC_CLIENT_SECRETS = 'config/client_secrets_dev.json'
+    OIDC_OPENID_REALM = 'flask-demo'
+    OIDC_ID_TOKEN_COOKIE_SECURE = False
+
 
 class ProductionConfig(Config):
     # habilita debug
@@ -47,6 +51,10 @@ class ProductionConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # Se deshabilitan los mensajes de log de SQLAlchemy.
     SHOW_SQLALCHEMY_LOG_MESSAGES = True
+    
+    OIDC_CLIENT_SECRETS = 'config/client_secrets_prod.json'
+    OIDC_OPENID_REALM = 'flask-demo'
+    OIDC_ID_TOKEN_COOKIE_SECURE = False
 
 
 class TestingConfig(Config):

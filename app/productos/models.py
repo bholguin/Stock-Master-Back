@@ -1,19 +1,29 @@
 from app.common.db import db, BaseModel
 from app.documentos.items.models import Item
 from app.movimientos.models import Movimiento
+from app.unidades_medidas.models import UnidadesMedidas
 from app.common.error_handling import ObjectNotFound
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Integer
+from typing import List
 
 class Producto(db.Model, BaseModel):
     __tablename__ = "productos"
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50), nullable=False)
-    referencia = db.Column(db.String(30))
-    descripcion = db.Column(db.String(100))
-    unidad_id = db.Column(db.Integer, db.ForeignKey("unidades_medidas.id"), nullable=False)
-    empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
-    unidad = db.relationship("UnidadesMedidas", backref="producto")
-    items = db.relationship("Item", backref="producto_item")
-    movimientos = db.relationship('Movimiento', backref='productos_movimientos')
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(50))
+    referencia: Mapped[str] = mapped_column(String(30))
+    descripcion: Mapped[str] = mapped_column(String(100))
+    empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
+    unidad_id = mapped_column(Integer, ForeignKey("unidades_medidas.id"))
+    unidad: Mapped[List["UnidadesMedidas"]] = relationship(
+        back_populates="producto", cascade="all, delete-orphan"
+    )
+    items: Mapped[List["Item"]] = relationship(
+        back_populates="producto_item", cascade="all, delete-orphan"
+    )
+    movimientos: Mapped[List["Movimiento"]] = relationship(
+        back_populates="productos_movimientos", cascade="all, delete-orphan"
+    )
 
     def __init__(self, nombre: str, referencia: str, descripcion: str, unidad_id: int, empresa_id: int):
         self.nombre = nombre

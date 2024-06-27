@@ -3,22 +3,27 @@ from app.documentos.models import Documento
 from app.movimientos.models import Movimiento
 from app.common.error_handling import ObjectNotFound, EmptyMessage
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Integer
+from typing import List
 
 class Usuario(db.Model, BaseModel):
     __tablename__ = 'usuarios'
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50))
-    apellido = db.Column(db.String(50))
-    username = db.Column(db.String(50))
-    password = db.Column(db.String(255))
-    correo = db.Column(db.String(50))
-    identificacion = db.Column(db.String(50))
-    telefono = db.Column(db.String(50))
-    empresa_id = db.Column(db.Integer, db.ForeignKey(
-        "empresas.id"), nullable=False)
-    documentos = db.relationship('Documento', backref='usuario_documentos')
-    movimientos = db.relationship('Movimiento', backref='usuario_movimientos')
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(50))
+    apellido: Mapped[str] = mapped_column(String(50))
+    username: Mapped[str] = mapped_column(String(50))
+    password: Mapped[str] = mapped_column(String(50))
+    correo: Mapped[str] = mapped_column(String(50))
+    identificacion: Mapped[str] = mapped_column(String(50))
+    telefono: Mapped[str] = mapped_column(String(50))
+    empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
+    documentos: Mapped[List["Documento"]] = relationship(
+        back_populates="usuario_documentos", cascade="all, delete-orphan"
+    )
+    movimientos: Mapped[List["Movimiento"]] = relationship(
+        back_populates="usuario_movimientos", cascade="all, delete-orphan"
+    )
 
     def __init__(self, nombre: str, apellido: str, username: str, password: str, empresa_id: int, correo: str, identificacion: str, telefono: str):
         self.nombre = nombre

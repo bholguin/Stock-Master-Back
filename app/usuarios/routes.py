@@ -1,6 +1,6 @@
-from .resources import UsuarioResource, UsuariosResource, ChangePasswordResource
 from flask import Blueprint
 from flask_restful import Api
+from app.usuarios.resources import UsuariosResource, UsuarioResource, ChangePasswordResource
 
 modulo_usuarios = Blueprint('modulo_usuarios', __name__)
 api = Api(modulo_usuarios)

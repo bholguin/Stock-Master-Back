@@ -1,15 +1,20 @@
 from app.common.db import db, BaseModel
 from app.productos.models import Producto
 from app.common.error_handling import ObjectNotFound
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Integer
+from typing import List
 
 class UnidadesMedidas(db.Model, BaseModel):
     __tablename__ = "unidades_medidas"
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50), nullable=False)
-    prefijo = db.Column(db.String(20), nullable=False)
-    descripcion = db.Column(db.String(100))
-    empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
-    productos = db.relationship('Producto', backref='unidades_productos', lazy=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(50))
+    prefijo: Mapped[str] = mapped_column(String(20))
+    descripcion: Mapped[str] = mapped_column(String(100))
+    empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
+    productos: Mapped[List["Producto"]] = relationship(
+        back_populates="unidades_productos", cascade="all, delete-orphan"
+    )
 
     def __init__(self, nombre: str, prefijo: str, descripcion: str, empresa_id: int):
         self.nombre = nombre

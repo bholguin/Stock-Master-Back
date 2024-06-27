@@ -3,7 +3,6 @@ from app.usuarios.models import Usuario
 from app.empresas.models import Empresa
 from app.validator.models import TokenBlacklist
 
-
 class Login():
 
     token: str
@@ -34,6 +33,6 @@ class Login():
         user = Usuario.filter_first(username=username, empresa_id=empresa_id)
         if user and user.check_password(user.password, password):
             auth_token = TokenBlacklist.encode_auth_token_extended(user)
-            return auth_token
+            return dict(token= auth_token, usuario = user, empresa = empresa)
         else:
             raise ForbiddenError()

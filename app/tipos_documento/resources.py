@@ -2,12 +2,13 @@ from flask_restful import request, Resource
 from app.tipos_documento.models import TipoDocumento
 from app.tipos_documento.schemas import TipoDocumentoSchema
 from flask_jwt_extended import jwt_required, get_current_user
+from app.common.ext import oidc
 
 tipodoc_schema = TipoDocumentoSchema()
 
 class TiposDocumentoResource(Resource):
 
-    @jwt_required
+    @oidc.require_login
     def get(self):
         submodulo_id = request.args.get('submodulo_id', None)
         user = get_current_user()
@@ -21,26 +22,26 @@ class TiposDocumentoResource(Resource):
     
 class TipoDocumentoResource(Resource):
 
-    @jwt_required
+    @oidc.require_login
     def get(self):
         tipodoc_id = request.args['tipodoc_id']
         user = get_current_user()
         tipodoc = TipoDocumento.get_tipo_doc(tipodoc_id, user.empresa_id)
         return tipodoc_schema.dump(tipodoc), 200
 
-    @jwt_required
+    @oidc.require_login
     def post(self):
         user = get_current_user()
         tipodoc = TipoDocumento.create_tipodoc(request.get_json(), empresa_id=user.empresa_id)
         return tipodoc_schema.dump(tipodoc), 201
     
-    @jwt_required
+    @oidc.require_login
     def put(self):
         user = get_current_user()
         tipodoc = TipoDocumento.update_tipodoc(request.get_json(), user.empresa_id)
         return tipodoc_schema.dump(tipodoc), 200
 
-    @jwt_required
+    @oidc.require_login
     def delete(self):
         tipodoc_id = request.args['tipodoc_id']
         user = get_current_user()

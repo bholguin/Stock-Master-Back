@@ -2,17 +2,22 @@ from app.common.db import db, BaseModel
 from app.productos.models import Producto
 from app.documentos.models import Documento
 from app.common.error_handling import ObjectNotFound
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Integer
+from typing import List
 
 class TipoDocumento(db.Model, BaseModel):
     __tablename__ = "tipos_documento"
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50), nullable=False)
-    prefijo = db.Column(db.String(20), nullable=False)
-    descripcion = db.Column(db.String(100))
-    consecutivo = db.Column(db.Integer)
-    empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
-    submodulo_id = db.Column(db.String(20), db.ForeignKey("submodulos.id"), nullable=False)
-    documentos = db.relationship('Documento', backref='tipodoc_documentos')
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(50))
+    prefijo : Mapped[str] = mapped_column(String(10))
+    descripcion: Mapped[str] = mapped_column(String(100))
+    consecutivo: Mapped[int] = mapped_column(Integer)
+    empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
+    submodulo_id = mapped_column(String(20), ForeignKey("submodulos.id"))
+    documentos: Mapped[List["Documento"]] = relationship(
+        back_populates="tipodoc_documentos", cascade="all, delete-orphan"
+    )
 
     def __init__(self, nombre: str, prefijo: str, descripcion: str, consecutivo: int, submodulo_id: str,  empresa_id: int):
         self.nombre = nombre

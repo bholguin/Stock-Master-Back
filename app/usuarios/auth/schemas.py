@@ -1,9 +1,10 @@
 from marshmallow import Schema, fields
 from app.usuarios.schemas import UsuarioSchema
+from app.empresas.schemas import EmpresaSchema
 
 class LoginSchema(Schema):
-    status = fields.Str()
-    token = fields.Str()
-    account = fields.Nested(UsuarioSchema())
 
+    token = fields.Str()
+    usuario = fields.Nested(UsuarioSchema())
+    empresa = fields.Nested(EmpresaSchema())
 

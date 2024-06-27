@@ -15,8 +15,10 @@ class LogoutResource(Resource):
 class LoginResource(Resource):
     
     def post(self):
-        token = Login.login_method(request.get_json())
-        return  token, 200
+        values = Login.login_method(request.get_json())
+        login = login_schema.dump(values)
+        print(login)
+        return  login, 200
 
 
 

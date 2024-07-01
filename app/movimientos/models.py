@@ -1,13 +1,13 @@
-from app.common.db import db, BaseModel
+from app.common.db import Base
 from datetime import datetime
-from app.documentos.models import Documento
+#from app.documentos.models import Documento
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Integer, DateTime, Float
 
-class Movimiento(db.Model, BaseModel):
+class Movimiento(Base):
     __tablename__ = "movimientos"
     id: Mapped[int] = mapped_column(primary_key=True)
-    creado = mapped_column(DateTime, default=datetime.now(datetime.UTC))
+    creado = mapped_column(DateTime, default=datetime.now())
     cantidad = mapped_column(Float)
     tipo: Mapped[str] = mapped_column(String(1))
     empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
@@ -16,10 +16,9 @@ class Movimiento(db.Model, BaseModel):
     item_id = mapped_column(Integer, ForeignKey("items.id"))
     usuario_id = mapped_column(Integer, ForeignKey("usuarios.id"))
     bodega_id = mapped_column(Integer, ForeignKey("bodegas.id"))
-    documento: Mapped["Documento"] = relationship(
-        back_populates="documento", cascade="all, delete-orphan"
-    )
-    documento =  db.relationship("Documento", backref="documento")
+    """     documento: Mapped["Documento"] = relationship(
+        backref="documento", cascade="all, delete-orphan"
+    ) """
 
     def __init__(self, tipo: str, cantidad: int, bodega_id: int, producto_id: int, empresa_id: int, documento_id: int, item_id: int, usuario_id: int):
         self.cantidad = cantidad

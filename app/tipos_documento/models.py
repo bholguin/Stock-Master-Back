@@ -1,12 +1,12 @@
-from app.common.db import db, BaseModel
-from app.productos.models import Producto
-from app.documentos.models import Documento
+from app.common.db import Base
+#from app.productos.models import Producto
+#from app.documentos.models import Documento
 from app.common.error_handling import ObjectNotFound
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Integer
 from typing import List
 
-class TipoDocumento(db.Model, BaseModel):
+class TipoDocumento(Base):
     __tablename__ = "tipos_documento"
     id: Mapped[int] = mapped_column(primary_key=True)
     nombre: Mapped[str] = mapped_column(String(50))
@@ -15,9 +15,9 @@ class TipoDocumento(db.Model, BaseModel):
     consecutivo: Mapped[int] = mapped_column(Integer)
     empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
     submodulo_id = mapped_column(String(20), ForeignKey("submodulos.id"))
-    documentos: Mapped[List["Documento"]] = relationship(
-        back_populates="tipodoc_documentos", cascade="all, delete-orphan"
-    )
+    """ documentos: Mapped[List["Documento"]] = relationship(
+        backref="tipodoc_documentos", cascade="all, delete-orphan"
+    ) """
 
     def __init__(self, nombre: str, prefijo: str, descripcion: str, consecutivo: int, submodulo_id: str,  empresa_id: int):
         self.nombre = nombre

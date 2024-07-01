@@ -1,11 +1,15 @@
-from app.common.db import db, BaseModel
+from app.common.db import db, Base
 from app.modulos.submodulo.models import Submodulo
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String
 
-class Modulo(db.Model, BaseModel):
+class Modulo(db.Model, Base):
     __tablename__ = 'modulos'
-    id = db.Column(db.String(20), primary_key=True)
-    go = db.Column(db.String(50))
-    submodulos = db.relationship('Submodulo', backref='submodulos', lazy=True)
+    id: Mapped[String] = mapped_column(String(20), primary_key=True)
+    go: Mapped[String] = mapped_column(String(50))
+    submodulos: Mapped["Submodulo"] = relationship(
+        backref="submodulos", cascade="all, delete-orphan"
+    )
 
     def __init__(slef):
         pass

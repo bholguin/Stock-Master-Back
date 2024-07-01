@@ -1,8 +1,11 @@
 #Para interactuar con la base de datos a través de su ORM
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.ext.automap import automap_base
 
 db = SQLAlchemy()
+
+Base = automap_base()
 
 class BaseModel(DeclarativeBase):
 

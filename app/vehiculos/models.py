@@ -1,11 +1,11 @@
-from app.common.db import db, BaseModel
+from app.common.db import Base,Base
 from app.documentos.models import Documento
 from app.common.error_handling import ObjectNotFound
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Integer
 from typing import List, Optional
 
-class Vehiculo(db.Model, BaseModel):
+class Vehiculo(Base):
     __tablename__ = "vehiculos"
     id: Mapped[int] = mapped_column(primary_key=True)
     placa: Mapped[str] = mapped_column(String(8))
@@ -14,7 +14,7 @@ class Vehiculo(db.Model, BaseModel):
     modelo: Mapped[Optional[str]]
     empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
     documentos: Mapped[List["Documento"]] = relationship(
-        back_populates="vehiculo_documentos", cascade="all, delete-orphan"
+        backref="vehiculo_documentos", cascade="all, delete-orphan"
     )
 
     def __init__(self, placa: str, descripcion: str, empresa_id: int, marca: str, modelo: str):

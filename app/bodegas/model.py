@@ -1,17 +1,19 @@
-from app.common.db import db, BaseModel
-from app.documentos.models import Documento
-from app.movimientos.models import Movimiento
+from app.common.db import Base
+#from app.documentos.models import Documento
 from app.common.error_handling import ObjectNotFound
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Integer
 
-class Bodega(db.Model, BaseModel):
+class Bodega(Base):
     __tablename__ = "bodegas"
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50), nullable=False)
-    direccion = db.Column(db.String(20))
-    descripcion = db.Column(db.String(100))
-    empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
-    documentos = db.relationship('Documento', backref='bodega_documentos')
-    #movimientos = db.relationship('Movimiento', backref='bodega_movimientos')
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[String] = mapped_column(String(50), nullable=True)
+    direccion: Mapped[String] = mapped_column(String(20))
+    descripcion: Mapped[String] = mapped_column(String(100))
+    empresa_id = mapped_column(Integer, ForeignKey("empresas.id"), nullable=False)
+    """ movimientos: Mapped["Documento"] = relationship(
+        backref="bodega_documentos", cascade="all, delete-orphan", lazy=True
+    ) """
 
     def __init__(self, nombre: str, direccion: str, descripcion: str, empresa_id: int):
         self.nombre = nombre

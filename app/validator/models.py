@@ -1,5 +1,5 @@
 from flask import jsonify
-from app.common.db import db, BaseModel
+from app.common.db import db, Base
 from app.common.error_handling import ForbiddenError
 from datetime import datetime
 from flask_jwt_extended import (
@@ -8,7 +8,7 @@ from flask_jwt_extended import (
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Boolean, DateTime
 
-class TokenBlacklist(db.Model, BaseModel):
+class TokenBlacklist(db.Model, Base):
     __tablename__ = 'token_blacklist'
     id: Mapped[int] = mapped_column(primary_key=True)
     jti: Mapped[str] = mapped_column(String(36))

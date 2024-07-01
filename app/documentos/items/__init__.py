@@ -1,1 +1,1 @@
-from app.documentos.models import Documento
+from app.documentos.items.models import Item

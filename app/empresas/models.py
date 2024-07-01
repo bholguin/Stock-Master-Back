@@ -1,4 +1,4 @@
-from app.common.db import db, BaseModel
+from app.common.db import Base
 from app.vehiculos.models import Vehiculo
 from app.usuarios.models import Usuario
 from app.bodegas.model import Bodega
@@ -13,36 +13,36 @@ from sqlalchemy import String
 from typing import Optional, List
 
 
-class Empresa(db.Model, BaseModel):
+class Empresa(Base):
     __tablename__ = "empresas"
     id: Mapped[int] = mapped_column(primary_key=True)
     nombre: Mapped[str]  = mapped_column(String(80), unique=True)
-    nit: Mapped[str]  = db.Column(db.String(15))
+    nit: Mapped[str]  = mapped_column(String(15))
     direccion: Mapped[Optional[str]]
     telefono: Mapped[Optional[str]]
     vehiculos: Mapped[List["Vehiculo"]] = relationship(
-        back_populates="vehiculo", cascade="all, delete-orphan"
+        backref="vehiculo", cascade="all, delete-orphan"
     )
     usuarios: Mapped[List["Usuario"]] = relationship(
-        back_populates="usuario", cascade="all, delete-orphan"
+        backref="usuario", cascade="all, delete-orphan"
     )
     unidades: Mapped[List["UnidadesMedidas"]] = relationship(
-        back_populates="unidades", cascade="all, delete-orphan"
+        backref="unidades", cascade="all, delete-orphan"
     )
     bodegas: Mapped[List["Bodega"]] = relationship(
-        back_populates="bodegas", cascade="all, delete-orphan"
+        backref="bodegas", cascade="all, delete-orphan"
     )
     productos: Mapped[List["Producto"]] = relationship(
-        back_populates="productos", cascade="all, delete-orphan"
+        backref="productos", cascade="all, delete-orphan"
     )
     tipos_documento: Mapped[List["TipoDocumento"]] = relationship(
-        back_populates="empresa_tipodoc", cascade="all, delete-orphan"
+        backref="empresa_tipodoc", cascade="all, delete-orphan"
     )
     documentos: Mapped[List["Documento"]] = relationship(
-        back_populates="empresa_documentos", cascade="all, delete-orphan"
+        backref="empresa_documentos", cascade="all, delete-orphan"
     )
     movimientos: Mapped[List["Movimiento"]] = relationship(
-        back_populates="empresa_movimientos", cascade="all, delete-orphan"
+        backref="empresa_movimientos", cascade="all, delete-orphan"
     )
 
     def __init__(self, nombre: str, nit: int, direccion: str, telefono: str):

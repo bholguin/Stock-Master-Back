@@ -1,4 +1,4 @@
-from app.common.db import db, BaseModel
+from app.common.db import Base
 from app.documentos.models import Documento
 from app.movimientos.models import Movimiento
 from app.common.error_handling import ObjectNotFound, EmptyMessage
@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Integer
 from typing import List
 
-class Usuario(db.Model, BaseModel):
+class Usuario(Base):
     __tablename__ = 'usuarios'
     id: Mapped[int] = mapped_column(primary_key=True)
     nombre: Mapped[str] = mapped_column(String(50))
@@ -19,10 +19,10 @@ class Usuario(db.Model, BaseModel):
     telefono: Mapped[str] = mapped_column(String(50))
     empresa_id = mapped_column(Integer, ForeignKey("empresas.id"))
     documentos: Mapped[List["Documento"]] = relationship(
-        back_populates="usuario_documentos", cascade="all, delete-orphan"
+        backref="usuario_documentos", cascade="all, delete-orphan"
     )
     movimientos: Mapped[List["Movimiento"]] = relationship(
-        back_populates="usuario_movimientos", cascade="all, delete-orphan"
+        backref="usuario_movimientos", cascade="all, delete-orphan"
     )
 
     def __init__(self, nombre: str, apellido: str, username: str, password: str, empresa_id: int, correo: str, identificacion: str, telefono: str):

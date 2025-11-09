@@ -9,15 +9,19 @@ class Vehiculo(db.Model, BaseModel):
     descripcion = db.Column(db.String(50))
     marca = db.Column(db.String(50))
     modelo = db.Column(db.String(50))
+    fecha_tecno = db.Column(db.Date)
+    fecha_seguro = db.Column(db.Date)
     empresa_id = db.Column(db.Integer, db.ForeignKey("empresas.id"), nullable=False)
-    documentos = db.relationship('Documento', backref='vehiculo_documentos')
+    documentos = db.relationship(Documento, backref='vehiculo_documentos')
 
-    def __init__(self, placa: str, descripcion: str, empresa_id: int, marca: str, modelo: str):
+    def __init__(self, placa: str, descripcion: str, empresa_id: int, marca: str, modelo: str, fecha_seguro: str, fecha_tecno: str):
         self.descripcion = descripcion
         self.placa = placa
         self.empresa_id = empresa_id
         self.marca = marca,
         self.modelo = modelo
+        self.fecha_seguro = fecha_seguro
+        self.fecha_tecno = fecha_tecno
     
     @classmethod
     def get_vehiculo(self, vehiculo_id: int, empresa_id: int):
@@ -28,11 +32,15 @@ class Vehiculo(db.Model, BaseModel):
 
     @classmethod
     def create_vehiculo(self, modelo: dict, empresa_id: int):
+        print(modelo)
         vehiculo = Vehiculo(descripcion=modelo["descripcion"],
                             placa=modelo["placa"],
                             marca=modelo['marca'],
                             modelo=modelo['modelo'],
+                            fecha_tecno=modelo['fecha_tecno'],
+                            fecha_seguro=modelo['fecha_seguro'],
                             empresa_id=empresa_id)
+       
         vehiculo.save()
         return vehiculo
     
@@ -43,6 +51,8 @@ class Vehiculo(db.Model, BaseModel):
         vehiculo.descripcion = modelo['descripcion']
         vehiculo.marca = modelo['marca']
         vehiculo.modelo = modelo['modelo']
+        vehiculo.fecha_tecno=modelo['fecha_tecno']
+        vehiculo.fecha_seguro=modelo['fecha_seguro']
         vehiculo.update()
         return vehiculo
     
